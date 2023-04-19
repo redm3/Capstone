@@ -14,10 +14,6 @@ function App() {
 
        </UserProvider>
 
-
-      {/* <Navbar/> */}
-      {/* <Login/> */}
-
     </div>
   )
 }
