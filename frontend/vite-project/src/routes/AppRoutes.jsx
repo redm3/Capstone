@@ -11,7 +11,7 @@ import PaymentForm from "../pages/checkout/PaymentForm";
 import Review from "../pages/checkout/Review";
 
 import Payment from "../components/Stripe/Payment";
-
+import ProductDetailsPage from "../pages/products/ProductDetailsPage";
 
 import StripeCheckoutForm from "../components/Stripe/StripeCheckoutForm";
 import Completion from "../components/Stripe/Completion";
@@ -25,6 +25,8 @@ function AppRoutes(props) {
 
       <Route path="/addressform" element={<AddressForm />} />
       <Route path="/checkout" element={<Checkout />} />
+      <Route path="/products/:id" element={<ProductDetailsPage />} />
+
 
 
       <Route path="/payment" element={<Payment />} />
