@@ -39,7 +39,7 @@ const Navbar = () => {
     return (
         <React.Fragment>
 
-            <AppBar sx={{ backgroundColor: 'white', color: 'black', margin: '0px auto',/* , px: "96px"  */ padding: '1vw' }} elevation={0}>
+            <AppBar sx={{ backgroundColor: 'white', color: 'black', margin: '0px auto', px: "96px",  padding: '0vw' }} elevation={0}>
                 <div style={{ borderBottom: 'grey 1px solid' }}>
                     <Toolbar sx={{ justifyContent: 'center' }}>
                         <Stack direction="row" spacing={2} alignItems="center" sx={{ ml: '1' }}>

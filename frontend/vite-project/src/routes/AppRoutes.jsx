@@ -1,4 +1,5 @@
 import { Routes, Route, Link } from "react-router-dom";
+
 import Home from "../pages/Home";
 import Login from "../pages/Login";
 import ProtectedRoute from "./ProtectedRoute";
@@ -9,6 +10,11 @@ import Checkout from "../pages/checkout/Checkout";
 import PaymentForm from "../pages/checkout/PaymentForm";
 import Review from "../pages/checkout/Review";
 
+import Payment from "../components/Stripe/Payment";
+
+import StripeCheckoutForm from "../components/Stripe/StripeCheckoutForm";
+import Completion from "../components/Stripe/Completion";
+
 function AppRoutes(props) {
   return (
     <Routes>
@@ -16,7 +22,11 @@ function AppRoutes(props) {
       <Route path="/register" element={<Register />} />
       <Route path="/login" element={<Login {...props} />} />
       <Route path="/pay" element={<Pay />} />
+
       <Route path="/addressform" element={<AddressForm />} />
+
+      <Route path="/payment" element={<Payment />} />
+      <Route path="/completion" element={<Completion />} />
     </Routes>
   );
 }
