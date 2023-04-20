@@ -15,12 +15,22 @@ import Logo from '../assets/metro-logo.png'
 import Logosmall from '../assets/metro-logo-small.png'
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import { UserContext } from '../context/UserContext';
+import LogoutIcon from '@mui/icons-material/Logout';
+
+
 
 
 const Navbar = () => {
 
     const isMobile = useMediaQuery('(max-width:800px)');
     const [openDrawer, setOpenDrawer] = React.useState(false);
+
+    const handleLogout = () => {
+        setUsername("");
+        navigate("/");
+      };
+      
 
     const navigate = useNavigate();
 
@@ -37,7 +47,9 @@ const Navbar = () => {
     };
 
     return (
+
         <React.Fragment>
+            
 
             <AppBar sx={{ backgroundColor: 'white', color: 'black', margin: '0px auto', px: "96px",  padding: '0vw' }} elevation={0}>
                 <div style={{ borderBottom: 'grey 1px solid' }}>

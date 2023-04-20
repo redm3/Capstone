@@ -69,7 +69,7 @@ export default function Login() {
         }
 
         setLoggedIn(isLoggedIn)
-        if (isLoggedIn) navigate("/dashboard");
+        if (isLoggedIn) navigate("/");
     };
 
     return (

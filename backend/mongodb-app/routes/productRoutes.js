@@ -2,9 +2,9 @@ let express = require("express");
 let router = express.Router();
 let Controllers = require("../controllers"); //index.js
 
-router.get('/', (req, res) => {
+/* router.get('/', (req, res) => {
     Controllers.productController.getProducts(res);
-})
+}) */
 
 router.get('/:id', (req, res) => {
     Controllers.productController.getProduct(req, res);

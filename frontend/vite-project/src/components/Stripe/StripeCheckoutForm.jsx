@@ -1,6 +1,7 @@
 import { PaymentElement } from "@stripe/react-stripe-js";
 import { useState } from "react";
 import { useStripe, useElements } from "@stripe/react-stripe-js";
+import "./StripeCheckoutForm.css";
 
 export default function StripeCheckoutForm() {
   const stripe = useStripe();
@@ -35,7 +36,10 @@ export default function StripeCheckoutForm() {
   };
 
   return (
+    <div className="checkout-form-container">
+      
     <form id="payment-form" onSubmit={handleSubmit}>
+    <h1>Metro Stripe Pay</h1>
       <PaymentElement id="payment-element" />
       <button disabled={isProcessing || !stripe || !elements} id="submit">
         <span id="button-text">
@@ -45,5 +49,6 @@ export default function StripeCheckoutForm() {
       {/* Show any error or success messages */}
       {message && <div id="payment-message">{message}</div>}
     </form>
+    </div>
   );
 }

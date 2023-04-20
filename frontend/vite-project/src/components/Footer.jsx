@@ -4,9 +4,9 @@ function Footer() {
   return (
     <Box
       marginTop="10px"
-      padding="40px 0"
+      padding="20px 0"
       borderTop="1px solid black" // Add a 1px black line above the box
-      bgcolor="rgba(128, 128, 128, 0.2)" 
+      bgcolor="rgba(128, 128, 128, 0)" 
     >
       <Box
         width="80%"
@@ -18,8 +18,8 @@ function Footer() {
         columnGap="clamp(20px, 30px, 40px)"
       >
         {/* Wrap each content block in a Box with flexGrow: 1 */}
-        <Box flexGrow={1} maxWidth="clamp(200px, 100%, 400px)">
-          <Typography variant="h4" fontWeight="bold" mb="30px">
+        <Box flexGrow={1} maxWidth="clamp(400px, 100%, 200px)">
+          <Typography variant="h5" fontWeight="bold" mb="30px">
             Metro
           </Typography>
           <div>
@@ -27,8 +27,8 @@ function Footer() {
           </div>
         </Box>
 
-        <Box flexGrow={1} maxWidth="clamp(200px, 100%, 400px)">
-          <Typography variant="h4" fontWeight="bold" mb="30px">
+        <Box flexGrow={1} maxWidth="clamp(400px, 100%, 200px)">
+          <Typography variant="h5" fontWeight="bold" mb="30px">
             About Us
           </Typography>
           <Typography mb="30px">Careers</Typography>
@@ -37,8 +37,8 @@ function Footer() {
           <Typography mb="30px">Privacy Policy</Typography>
         </Box>
 
-        <Box flexGrow={1} maxWidth="clamp(200px, 100%, 400px)">
-          <Typography variant="h4" fontWeight="bold" mb="30px">
+        <Box flexGrow={1} maxWidth="clamp(400px, 100%, 200px)">
+          <Typography variant="h5" fontWeight="bold" mb="30px">
             Customer Care
           </Typography>
           <Typography mb="30px">Help Center</Typography>
@@ -47,12 +47,12 @@ function Footer() {
           <Typography mb="30px">Returns & Refunds</Typography>
         </Box>
 
-        <Box flexGrow={1} maxWidth="clamp(200px, 100%, 400px)">
-          <Typography variant="h4" fontWeight="bold" mb="30px">
+        <Box flexGrow={1} maxWidth="clamp(400px, 100%, 200px)">
+          <Typography variant="h5" fontWeight="bold" mb="30px">
             Contact Us
           </Typography>
           <Typography mb="30px">
-            50 Country Road. Auckland, New Zealand
+            10 Queens St. Auckland, New Zealand
           </Typography>
           <Typography mb="30px" sx={{ wordWrap: 'break-word' }}>
             Email: Metro@gmail.com

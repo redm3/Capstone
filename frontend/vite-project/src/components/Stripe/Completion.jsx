@@ -1,5 +1,12 @@
+import './Completion.css';
+
 function Completion(props) {
-    return <h1>Thank you! 🎉</h1>;
-  }
-  
-  export default Completion;
+  return (
+    <div className="completion-container">
+      <h1>Thank you for your order! 🎉</h1>
+     
+    </div>
+  );
+}
+
+export default Completion;

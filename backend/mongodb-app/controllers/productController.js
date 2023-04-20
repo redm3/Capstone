@@ -1,7 +1,7 @@
 const axios = require('axios');
 let Models = require("../models"); //matches index.js
 
-const getProducts = () => {
+/* const getProducts = () => {
     Models.Product.deleteMany({}).then(()=> {
     axios.get('https://fakestoreapi.com/products')
         .then(response => {
@@ -23,7 +23,7 @@ const getProducts = () => {
             console.log(err);
         })
     })
-};
+}; */
 
 const getProduct = (req, res) => {
     /* axios.get('https://fakestoreapi.com/products/' + req.params.id) */
@@ -77,5 +77,5 @@ const deleteProduct = (req, res) => {
 }
 
 module.exports = {
-    getProduct, getProducts, createProduct, updateProduct, deleteProduct
+    getProduct, /* getProducts, */ createProduct, updateProduct, deleteProduct
 }

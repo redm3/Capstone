@@ -32,6 +32,8 @@ app.get("/config", (req, res) => {
     });
   });
 
+  /* http://127.0.0.1:8000/config */
+
  app.post('/create-payment-intent', async (req, res) => {
     try {
       const { amount } = req.body;
@@ -47,6 +49,12 @@ app.get("/config", (req, res) => {
       res.status(500).json({ error: err.message });
     }
   }); 
+
+ /*  http://127.0.0.1:8000/create-payment-intent */
+/*  {
+    "amount":2000
+    
+} */
 
 
 /*   app.post('/create-payment-intent', async (req, res) => {
@@ -69,7 +77,7 @@ app.get("/", (req, res) => {
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
 console.log(`Server is running on port ${PORT}.`);
-Controllers.productController.getProducts();
+/* Controllers.productController.getProducts(); */
 Controllers.userController.getUsers();
 });
 
