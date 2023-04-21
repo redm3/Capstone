@@ -4,15 +4,15 @@ import { UserContext } from "../context/UserContext";
 
 // see https://www.robinwieruch.de/react-router-private-routes/
 function ProtectedRoute({ redirectPath = '/login', children }) {
-    const {username} = useContext(UserContext)
+    const {email} = useContext(UserContext)
     
-    if (!username) {
+    if (!email) {
         return <Navigate to={redirectPath} replace />;
         
     }
 
     return children ? children : <Outlet/>;
-    /* return <div>{username}</div> */
+    /* return <div>{email}</div> */
 }
 
 export default ProtectedRoute

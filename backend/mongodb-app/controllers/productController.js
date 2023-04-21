@@ -1,5 +1,6 @@
 const axios = require('axios');
 let Models = require("../models"); //matches index.js
+const mongoose = require('mongoose');
 
 /* const getProducts = () => {
     Models.Product.deleteMany({}).then(()=> {
@@ -24,6 +25,17 @@ let Models = require("../models"); //matches index.js
         })
     })
 }; */
+
+const getProducts = (req, res) => {
+    Models.Product.find({})
+        .then(data => {
+
+            res.send({ result: 200, data: data });
+        })
+        .catch(err => {
+            res.send({ result: 404, error: err.message })
+        });
+};
 
 const getProduct = (req, res) => {
     /* axios.get('https://fakestoreapi.com/products/' + req.params.id) */
@@ -77,5 +89,5 @@ const deleteProduct = (req, res) => {
 }
 
 module.exports = {
-    getProduct, /* getProducts, */ createProduct, updateProduct, deleteProduct
+    getProduct, getProducts, createProduct, updateProduct, deleteProduct
 }

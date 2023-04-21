@@ -33,44 +33,51 @@ function Copyright(props) {
 
 export default function Login() {
 
-    const usernameProps = useFormInput('')
+    const emailProps = useFormInput('')
     const passwordProps = useFormInput('')
-    const { username, setUsername } = React.useContext(UserContext)
+    const { email, setEmail } = React.useContext(UserContext)
     const navigate = useNavigate()
 
     const [loggedIn, setLoggedIn] = React.useState(false)
     const [errMsg, setErrMsg] = React.useState('')
     const [loginAttempts, setLoginAttempts] = React.useState(0)
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        let user = usernameProps.value
+        let user = emailProps.value
         let password = passwordProps.value
 
-        console.log(user + ' ' + password)
+        try {
+            const response = await fetch('http://127.0.0.1:8000/api/users/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email: user, password: password }),
+            });
 
-        //login successful/true if both values exist and match
-        let isLoggedIn = (user && password && user === password)
+            if (response.ok) {
+                const data = await response.json();
+                setEmail(user);
+                setLoggedIn(true);
+                setErrMsg('');
+                console.log(data)
 
-        if (!isLoggedIn) {
-            let newAttempts = loginAttempts + 1
-
-            if (newAttempts === 5) {
-                setErrMsg('Maximum login attempts exceeded. You are blocked.');
+                if (data.data.admin== true) {
+                    navigate('/admin');
+                } else {
+                    navigate('/');
+                }
+            } else {
+                setLoggedIn(false);
+                setErrMsg('Unsuccessful login attempt');
             }
-            else {
-                setErrMsg('Unsuccessful login attempt #' + newAttempts + ' of 5');
-            }
-            setLoginAttempts(newAttempts)
-        } else {
-            setErrMsg('')
-            setUsername(user)
-            /* navigate(window.location.href = "/dashboardpage"); */
+        } catch (error) {
+            console.error('Error:', error);
+            setErrMsg('Error logging in');
         }
-
-        setLoggedIn(isLoggedIn)
-        if (isLoggedIn) navigate("/");
     };
+
 
     return (
         <div className={s.body} >
@@ -90,7 +97,7 @@ export default function Login() {
                             <LockOutlinedIcon />
                         </Avatar>
                         <Typography component="h1" variant="h5">
-                            {loggedIn ? 'Hello ' + username : 'Metro Login'}
+                            {loggedIn ? 'Hello ' + email : 'Metro Login'}
                         </Typography>
 
                         {!loggedIn && loginAttempts < 5 &&
@@ -100,10 +107,10 @@ export default function Login() {
                                     margin="normal"
                                     required
                                     fullWidth
-                                    id="username"
-                                    label="Username"
-                                    name="username"
-                                    {...usernameProps}
+                                    id="email"
+                                    label="Email"
+                                    name="email"
+                                    {...emailProps}
                                     autoFocus
                                 />
                                 <TextField

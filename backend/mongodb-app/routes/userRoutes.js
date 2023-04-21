@@ -3,13 +3,13 @@ let router = express.Router();
 let Controllers = require("../controllers"); //index.js
 const auth = require("../middleware/auth");
 
-/* router.get('/', (req, res) => {
-    Controllers.userController.getUsers(res);
-}) */
-
-router.get('/', auth, (req, res) => {
+router.get('/', (req, res) => {
     Controllers.userController.getUsers(res);
 })
+
+/* router.get('/', auth, (req, res) => {
+    Controllers.userController.getUsers(res);
+}) */
 
 router.post('/login', (req, res) => {
     Controllers.userController.loginUser(req, res)

@@ -5,20 +5,23 @@ import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
+import Button from '@mui/material/Button';
 import './ProductDetailsPage.css';
+import { Link } from 'react-router-dom';
 
 function ProductDetailsPage() {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
-  const [womenSize, setWomenSize] = useState('');
-  const [menSize, setMenSize] = useState('');
+  const [gender, setGender] = useState('');
+  const [size, setSize] = useState('');
 
-  const handleWomenSizeChange = (event) => {
-    setWomenSize(event.target.value);
+  const handleGenderChange = (event) => {
+    setGender(event.target.value);
+    setSize('');
   };
 
-  const handleMenSizeChange = (event) => {
-    setMenSize(event.target.value);
+  const handleSizeChange = (event) => {
+    setSize(event.target.value);
   };
 
   useEffect(() => {
@@ -29,59 +32,92 @@ function ProductDetailsPage() {
 
   return (
     <Box border={0}>
-      <div className="product-details-container1">
-        {product ? (
-          <>
-            <div className="product-image-container1">
-              <img src={product.image} alt={product.title} className="product-image1" />
-            </div>
-            <div className="product-details1">
-              <h2>{product.title}</h2>
-              <p>{product.description}</p>
-              <p>Price: ${product.price}</p>
-              <FormControl fullWidth variant="outlined" style={{ marginBottom: '1rem' }}>
-                <InputLabel>Women's Size</InputLabel>
-                <Select
-                  value={womenSize}
-                  onChange={handleWomenSizeChange}
-                  label="Women's Size"
+      <Link to="/store">
+        <Button
+          sx={{
+            position: 'absolute',
+            top: '100px', // Change this value to move the button lower
+            left: '1rem',
+            backgroundColor: 'grey',
+            color: 'white',
+            '&:hover': {
+              backgroundColor: 'black',
+            },
+          }}
+        >
+          Back to Store
+        </Button>
+      </Link>
+      <Box border={0}>
+        <div className="product-details-container1">
+          {product ? (
+            <>
+              <div className="product-image-container1">
+                <img src={product.image} alt={product.title} className="product-image1" />
+              </div>
+              <div className="product-details1">
+                <h2>{product.title}</h2>
+                <p>{product.description}</p>
+                <p>Price: ${product.price}</p>
+                <FormControl fullWidth variant="outlined" style={{ marginBottom: '1rem' }}>
+                  <InputLabel>Gender</InputLabel>
+                  <Select value={gender} onChange={handleGenderChange} label="Gender">
+                    <MenuItem value="">
+                      <em>None</em>
+                    </MenuItem>
+                    <MenuItem value="women">Women</MenuItem>
+                    <MenuItem value="men">Men</MenuItem>
+                  </Select>
+                </FormControl>
+                <FormControl fullWidth variant="outlined" style={{ marginBottom: '1rem' }}>
+                  <InputLabel>Size</InputLabel>
+                  <Select value={size} onChange={handleSizeChange} label="Size">
+                    <MenuItem value="">
+                      <em>None</em>
+                    </MenuItem>
+                    {gender === 'women' &&
+                      [5, 6, 7].map((size) => (
+                        <MenuItem key={size} value={size}>
+                          {size}
+                        </MenuItem>
+                      ))}
+                    {gender === 'men' &&
+                      [8, 9, 10, 11, 12].map((size) => (
+                        <MenuItem key={size} value={size}>
+                          {size}
+                        </MenuItem>
+                      ))}
+                  </Select>
+                </FormControl>
+                <Button
+                  fullWidth
+                  variant="contained"
+                  className="add-to-cart-button1"
+                  disabled={!gender || !size}
+                  sx={{
+                    backgroundColor: 'grey',
+                    color: 'white',
+                    '&:hover': {
+                      backgroundColor: 'black',
+                    },
+                    '&:disabled': {
+                      backgroundColor: 'lightgrey',
+                      color: 'rgba(255, 255, 255, 0.7)',
+                    },
+                    '&:disabled:hover': {
+                      backgroundColor: 'lightgrey',
+                    },
+                  }}
                 >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
-                  <MenuItem value={5}>5</MenuItem>
-                  <MenuItem value={6}>6</MenuItem>
-                  <MenuItem value={7}>7</MenuItem>
-                  {/* Add more sizes as needed */}
-                </Select>
-              </FormControl>
-              <FormControl fullWidth variant="outlined" style={{ marginBottom: '1rem' }}>
-                <InputLabel>Men's Size</InputLabel>
-                <Select
-                  value={menSize}
-                  onChange={handleMenSizeChange}
-                  label="Men's Size"
-                >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
-                  <MenuItem value={8}>8</MenuItem>
-                  <MenuItem value={9}>9</MenuItem>
-                  <MenuItem value={10}>10</MenuItem>
-                  <MenuItem value={11}>11</MenuItem>
-                  <MenuItem value={12}>12</MenuItem>
-                  {/* Add more sizes as needed */}
-                </Select>
-              </FormControl>
-              <button className="add-to-cart-button" disabled={!womenSize && !menSize}>
-                Add to Cart
-              </button>
-            </div>
-          </>
-        ) : (
-          <p>Loading...</p>
-        )}
-      </div>
+                  Add to Cart
+                </Button>
+              </div>
+            </>
+          ) : (
+            <p>Loading...</p>
+          )}
+        </div>
+      </Box>
     </Box>
   );
 }

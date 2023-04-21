@@ -38,7 +38,8 @@ const userSchema = new schema({
             long:String
         }
     },
-    phone:String
+    phone:String,
+    admin: Boolean
 })
 
 module.exports = mongoose.model('user',userSchema)

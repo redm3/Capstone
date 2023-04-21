@@ -3,12 +3,20 @@ let Models = require("../models"); //matches index.js
 const mongoose = require('mongoose')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+require('dotenv').config()
 
 /* const getUsers = (res) => {
         axios.get('https://fakestoreapi.com/users')
-            .then(response => {
+            .then(async response => {
+                let encryptedUsers = []
+            
+                for (let user of response.data){
+                    encryptedUsers.push({...user, password:await bcrypt.hash(user.password,10)})
+
+                }
+                console.log(encryptedUsers)
                 // save the retrieved user data to your database
-                Models.User.insertMany(response.data)
+                Models.User.insertMany(encryptedUsers)
                     .then(() => {
                         // retrieve the saved user data from your database
                         Models.User.find({})
@@ -17,6 +25,7 @@ const jwt = require('jsonwebtoken')
                                 console.log(err);
                                 res.send({ result: 500, error: err.message })
                             });
+                            
                     })
                     .catch(err => {
                         console.log(err);
@@ -27,7 +36,9 @@ const jwt = require('jsonwebtoken')
                 console.log(err);
                 res.send({ result: 500, error: err.message })
             });
-    }; */
+    };
+ */
+
 
     const loginUser = async (req, res) => {
         try {
@@ -38,8 +49,10 @@ const jwt = require('jsonwebtoken')
             if (!(email && password)) {
                 res.status(400).json({ result: "All input is required" });
             }
-            // Validate if user exists in our database
-            const user = await Models.User.findOne({ where: { emailId: email }});
+            // Validate if user exists in our MongoDB database
+            const user = await Models.User.findOne({ email: email });
+            console.log(user.password)
+            console.log(password)
     
             if (user && (await bcrypt.compare(password, user.password))) {
                 // Create token
@@ -60,9 +73,9 @@ const jwt = require('jsonwebtoken')
             res.status(500).json({ result: err.message })
         }
     }
+    
 
     const registerUser = async (req, res) => {
-
         try {
             // Get user input by destructuring request body
             const { firstName, lastName, emailId, password } = req.body;
@@ -72,8 +85,8 @@ const jwt = require('jsonwebtoken')
                 res.status(400).json("All input is required");
             }
     
-            // Validate if user exists in our database
-            const oldUser = await Models.User.findOne({ where: { emailId }});
+            // Validate if user exists in our MongoDB database
+            const oldUser = await Models.User.findOne({ emailId });
     
             if (oldUser) {
                 res.status(409).json({ result: "User already exists. Please login" });
@@ -82,7 +95,7 @@ const jwt = require('jsonwebtoken')
             //Encrypt user password
             let encryptedPassword = await bcrypt.hash(password, 10);
     
-            // Create user in our database
+            // Create user in our MongoDB database
             const user = await Models.User.create({
                 firstName,
                 lastName,
@@ -108,8 +121,9 @@ const jwt = require('jsonwebtoken')
             res.status(500).json({ result: err.message })
         }
     }
+    
 
-    const getUsers = () => {
+/*     const getUsers = () => {
         Models.User.deleteMany({})
           .then(() => {
             axios.get('https://fakestoreapi.com/users')
@@ -132,7 +146,7 @@ const jwt = require('jsonwebtoken')
                 console.log(err);
               })
           })
-      };
+      }; */
 
 const getUserById = (req, res) => {
     /* axios.get('https://fakestoreapi.com/users/'+req.params.id) */
@@ -185,5 +199,5 @@ const deleteUser = (req, res) => {
 }
 
 module.exports = {
-    loginUser,registerUser, getUsers, getUserById, createUser, updateUser, deleteUser
+    loginUser,registerUser, /* getUsers, */ getUserById, createUser, updateUser, deleteUser
 }

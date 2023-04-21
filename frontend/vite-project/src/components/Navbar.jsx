@@ -116,9 +116,11 @@ const Navbar = () => {
                                         sx={{ textTransform: 'none' }}
                                         onClick={(event) => handleChange(event, 1)}
                                     >
-                                        <Typography variant="h6" component="div" sx={{ xl: 1, opacity: 0.8, '&:hover': { opacity: 1 } }} color="black">
-                                            Store
-                                        </Typography>
+                                        <Link to="/store" style={{ textDecoration: 'none' }}>
+                                            <Typography variant="h6" component="div" sx={{ xl: 1, opacity: 0.8, '&:hover': { opacity: 1 } }} color="black">
+                                                Store
+                                            </Typography>
+                                        </Link>
                                     </Button>
                                     <Button
                                         disableRipple
