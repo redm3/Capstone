@@ -24,6 +24,36 @@ function ProductDetailsPage() {
     setSize(event.target.value);
   };
 
+  const addToCart = () => {
+    const cartItem = {
+      id: product.id,
+      title: product.title,
+      image: product.image,
+      price: product.price,
+      gender,
+      size,
+    };
+
+    const storedCart = localStorage.getItem('cart');
+    let cart = [];
+
+    if (storedCart) {
+      cart = JSON.parse(storedCart);
+    }
+
+    const existingCartItemIndex = cart.findIndex((item) => item.id === product.id && item.gender === gender && item.size === size);
+
+    if (existingCartItemIndex >= 0) {
+      cart[existingCartItemIndex].quantity += 1;
+    } else {
+      cartItem.quantity = 1;
+      cart.push(cartItem);
+    }
+
+    localStorage.setItem('cart', JSON.stringify(cart));
+    console.log('Updated cart:', cart); // Log the updated cart array
+  };
+
   useEffect(() => {
     fetch(`http://127.0.0.1:8000/api/products/${id}`)
       .then((response) => response.json())
@@ -35,7 +65,7 @@ function ProductDetailsPage() {
       <Link to="/store">
         <Button
           sx={{
-            position: 'absolute',
+            position: 'sticky', // Change 'absolute' to 'sticky'
             top: '100px', // Change this value to move the button lower
             left: '1rem',
             backgroundColor: 'grey',
@@ -43,6 +73,7 @@ function ProductDetailsPage() {
             '&:hover': {
               backgroundColor: 'black',
             },
+            zIndex: 1000, // Add a z-index to make sure the button stays on top of other elements
           }}
         >
           Back to Store
@@ -89,28 +120,31 @@ function ProductDetailsPage() {
                       ))}
                   </Select>
                 </FormControl>
-                <Button
-                  fullWidth
-                  variant="contained"
-                  className="add-to-cart-button1"
-                  disabled={!gender || !size}
-                  sx={{
-                    backgroundColor: 'grey',
-                    color: 'white',
-                    '&:hover': {
-                      backgroundColor: 'black',
-                    },
-                    '&:disabled': {
-                      backgroundColor: 'lightgrey',
-                      color: 'rgba(255, 255, 255, 0.7)',
-                    },
-                    '&:disabled:hover': {
-                      backgroundColor: 'lightgrey',
-                    },
-                  }}
-                >
-                  Add to Cart
-                </Button>
+                <Link to="/cart">
+                  <Button
+                    fullWidth
+                    variant="contained"
+                    className="add-to-cart-button1"
+                    disabled={!gender || !size}
+                    onClick={addToCart}
+                    sx={{
+                      backgroundColor: 'grey',
+                      color: 'white',
+                      '&:hover': {
+                        backgroundColor: 'black',
+                      },
+                      '&:disabled': {
+                        backgroundColor: 'lightgrey',
+                        color: 'rgba(255, 255, 255, 0.7)',
+                      },
+                      '&:disabled:hover': {
+                        backgroundColor: 'lightgrey',
+                      },
+                    }}
+                  >
+                    Add to Cart
+                  </Button>
+                </Link>
               </div>
             </>
           ) : (

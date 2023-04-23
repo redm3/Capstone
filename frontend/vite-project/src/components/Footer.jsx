@@ -23,7 +23,7 @@ function Footer() {
             Metro
           </Typography>
           <div>
-            Metro is a cutting-edge eCommerce store that offers an unparalleled shopping experience for customers who value quality, variety, and convenience. As a one-stop-shop for all your needs.
+          Your ultimate sneaker destination in Auckland! Providing exclusive kicks, unbeatable deals, and top-notch service. Elevate your sneaker game with Metro! 👟
           </div>
         </Box>
 

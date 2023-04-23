@@ -16,15 +16,18 @@ import ProductDetailsPage from "../pages/products/ProductDetailsPage";
 import StripeCheckoutForm from "../components/Stripe/StripeCheckoutForm";
 import Completion from "../components/Stripe/Completion";
 import Store from "../pages/Store/Store";
+import Cart from "../pages/Cart/Cart"
 
 function AppRoutes(props) {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/store" element={<Store />} />
+      <Route path="/cart" element={<Cart />} />
 
       <Route path="/register" element={<Register />} />
       <Route path="/login" element={<Login {...props} />} />
+     
 
       <Route path="/addressform" element={<AddressForm />} />
       <Route path="/checkout" element={<Checkout />} />

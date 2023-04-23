@@ -21,16 +21,19 @@ import LogoutIcon from '@mui/icons-material/Logout';
 
 
 
+
 const Navbar = () => {
 
     const isMobile = useMediaQuery('(max-width:800px)');
     const [openDrawer, setOpenDrawer] = React.useState(false);
+    const { email } = React.useContext(UserContext);
+
 
     const handleLogout = () => {
         setUsername("");
         navigate("/");
-      };
-      
+    };
+
 
     const navigate = useNavigate();
 
@@ -49,9 +52,9 @@ const Navbar = () => {
     return (
 
         <React.Fragment>
-            
 
-            <AppBar sx={{ backgroundColor: 'white', color: 'black', margin: '0px auto', px: "96px",  padding: '0vw' }} elevation={0}>
+
+            <AppBar sx={{ backgroundColor: 'white', color: 'black', margin: '0px auto', px: "96px", padding: '0vw' }} elevation={0}>
                 <div style={{ borderBottom: 'grey 1px solid' }}>
                     <Toolbar sx={{ justifyContent: 'center' }}>
                         <Stack direction="row" spacing={2} alignItems="center" sx={{ ml: '1' }}>
@@ -131,25 +134,63 @@ const Navbar = () => {
                                         sx={{ textTransform: 'none' }}
                                         onClick={(event) => handleChange(event, 2)}
                                     >
-                                        <Typography variant="h6" component="div" sx={{ xl: 1, opacity: 0.8, '&:hover': { opacity: 1 } }} color="black">
-                                            Cart
-                                        </Typography>
-                                    </Button>
-                                    <Button
-                                        style={{ backgroundColor: "transparent" }}
-                                        disableRipple
-                                        value={2}
-                                        startIcon={<LoginIcon sx={{ color: 'black', opacity: 0.5 }} />}
-                                        variant="text"
-                                        sx={{ backgroundColor: "transparent", textTransform: 'none',/*  padding: '0px', */ position: 'absolute', right: '0' }}
-                                        onClick={(event) => handleChange(event, 2)}
-                                    >
-                                        <Link to="/login" style={{ textDecoration: 'none' }}>
-                                        <Typography variant="h6" component="div" sx={{ xl: 1, opacity: 0.8, '&:hover': { opacity: 1 } }} color="black" >
-                                            Login
-                                        </Typography>
+                                        <Link to="/cart" style={{ textDecoration: 'none' }}>
+                                            <Typography variant="h6" component="div" sx={{ xl: 1, opacity: 0.8, '&:hover': { opacity: 1 } }} color="black">
+                                                Cart
+                                            </Typography>
                                         </Link>
                                     </Button>
+
+                                    {email ? (
+                                        <Button
+                                            style={{ backgroundColor: "transparent" }}
+                                            disableRipple
+                                            startIcon={<LogoutIcon sx={{ color: 'black', opacity: 0.5 }} />}
+                                            variant="text"
+                                            sx={{
+                                                backgroundColor: "transparent",
+                                                textTransform: "none",
+                                                position: "absolute",
+                                                right: "0",
+                                            }}
+                                            onClick={handleLogout}
+                                        >
+                                            <Typography
+                                                variant="h6"
+                                                component="div"
+                                                sx={{ xl: 1, opacity: 0.8, "&:hover": { opacity: 1 } }}
+                                                color="black"
+                                            >
+                                                Log out
+                                            </Typography>
+                                        </Button>
+                                    ) : (
+                                        <Button
+                                            style={{ backgroundColor: "transparent" }}
+                                            disableRipple
+                                            value={2}
+                                            startIcon={<LoginIcon sx={{ color: 'black', opacity: 0.5 }} />}
+                                            variant="text"
+                                            sx={{
+                                                backgroundColor: "transparent",
+                                                textTransform: "none",
+                                                position: "absolute",
+                                                right: "0",
+                                            }}
+                                            onClick={(event) => handleChange(event, 2)}
+                                        >
+                                            <Link to="/login" style={{ textDecoration: "none" }}>
+                                                <Typography
+                                                    variant="h6"
+                                                    component="div"
+                                                    sx={{ xl: 1, opacity: 0.8, "&:hover": { opacity: 1 } }}
+                                                    color="black"
+                                                >
+                                                    Login
+                                                </Typography>
+                                            </Link>
+                                        </Button>
+                                    )}
                                 </>
                             )}
 
