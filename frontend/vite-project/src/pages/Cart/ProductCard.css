@@ -22,7 +22,7 @@
   }
   
   .cart-image img {
-    width: 200px;
+    width: 250px;
     height: auto;
     margin-right: 20px;
   }
@@ -53,11 +53,12 @@
       display: flex;
       justify-content: center;
       width: 125px; /* Add this line */
-      height:auto
+      height:auto;
+      margin-left: 30px;
     }
   
     .cart-details {
-      margin-left: 0; /* Remove the margin-left */
+      margin-left: 0px; /* Remove the margin-left */
     }
   }
   

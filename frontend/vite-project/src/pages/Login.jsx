@@ -15,6 +15,8 @@ import { useNavigate } from 'react-router-dom';
 import useFormInput from '../hooks/useForminput';
 import { UserContext } from '../context/UserContext';
 import s from './Login.module.scss'
+import jwt_decode from 'jwt-decode';
+
 
 function Copyright(props) {
     return (
@@ -29,7 +31,6 @@ function Copyright(props) {
     );
 }
 
-/* const theme = createTheme(); */
 
 export default function Login() {
 
@@ -42,11 +43,22 @@ export default function Login() {
     const [errMsg, setErrMsg] = React.useState('')
     const [loginAttempts, setLoginAttempts] = React.useState(0)
 
+    const isTokenValid = (token) => {
+        try {
+          // Replace with the appropriate token decoding method
+          jwt_decode(token);
+          return true;
+        } catch (error) {
+          console.error(error);
+          return false;
+        }
+      };
+
     const handleSubmit = async (event) => {
         event.preventDefault();
         let user = emailProps.value
         let password = passwordProps.value
-
+    
         try {
             const response = await fetch('http://127.0.0.1:8000/api/users/login', {
                 method: 'POST',
@@ -55,15 +67,18 @@ export default function Login() {
                 },
                 body: JSON.stringify({ email: user, password: password }),
             });
-
+    
             if (response.ok) {
                 const data = await response.json();
                 setEmail(user);
                 setLoggedIn(true);
                 setErrMsg('');
-                console.log(data)
-
-                if (data.data.admin== true) {
+                console.log(data);
+    
+                // Save the JWT token to local storage
+                localStorage.setItem('token', data.token);
+    
+                if (data.data.admin == true) {
                     navigate('/admin');
                 } else {
                     navigate('/');
@@ -78,12 +93,21 @@ export default function Login() {
         }
     };
 
+    React.useEffect(() => {
+        const storedToken = localStorage.getItem('token');
+        if (storedToken && isTokenValid(storedToken)) {
+          setLoggedIn(true);
+        } else {
+          setLoggedIn(false);
+        }
+      }, []);
+    
+
 
     return (
+        
         <div className={s.body} >
             <div className="Login componentBox">
-                {/* <CssBaseline /> */}
-                {/* <ThemeProvider theme={theme}> */}
                 <Container component="main" maxWidth="xs">
                     <Box
                         sx={{
@@ -154,7 +178,6 @@ export default function Login() {
                     </Box>
                     <Copyright sx={{ mt: 8, mb: 4 }} />
                 </Container>
-                {/* </ThemeProvider> */}
             </div>
         </div>
     );

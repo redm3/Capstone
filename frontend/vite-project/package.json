@@ -23,6 +23,7 @@
     "formik": "^2.2.9",
     "framer-motion": "^10.12.4",
     "isotope-layout": "^3.0.6",
+    "jwt-decode": "^3.1.2",
     "material-ui-dropzone": "^3.5.0",
     "mongoose": "^7.0.4",
     "nanoid": "^4.0.2",
