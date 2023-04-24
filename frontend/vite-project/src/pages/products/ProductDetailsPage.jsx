@@ -8,6 +8,8 @@ import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
 import './ProductDetailsPage.css';
 import { Link } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function ProductDetailsPage() {
   const { id } = useParams();
@@ -25,6 +27,7 @@ function ProductDetailsPage() {
   };
 
   const addToCart = () => {
+    const notify = () => toast("Item added to cart!");
     const cartItem = {
       id: product.id,
       title: product.title,
@@ -52,6 +55,8 @@ function ProductDetailsPage() {
 
     localStorage.setItem('cart', JSON.stringify(cart));
     console.log('Updated cart:', cart); // Log the updated cart array
+    notify();
+
   };
 
   useEffect(() => {
@@ -73,13 +78,42 @@ function ProductDetailsPage() {
             '&:hover': {
               backgroundColor: 'black',
             },
-            zIndex: 1000, // Add a z-index to make sure the button stays on top of other elements
+            zIndex: 1, // Add a z-index to make sure the button stays on top of other elements
           }}
         >
           Back to Store
         </Button>
       </Link>
+      <Link to="/cart">
+        <Button
+          sx={{
+            position: 'fixed', // Change 'sticky' to 'fixed'
+            top: '100px',
+            right: '1rem', // Ensure 'right' is set to '1rem'
+            backgroundColor: 'grey',
+            color: 'white',
+            '&:hover': {
+              backgroundColor: 'black',
+            },
+            zIndex: 1000,
+          }}
+        >
+          Go to Cart
+        </Button>
+      </Link>
       <Box border={0}>
+        <ToastContainer
+          position="bottom-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
         <div className="product-details-container1">
           {product ? (
             <>
@@ -120,31 +154,31 @@ function ProductDetailsPage() {
                       ))}
                   </Select>
                 </FormControl>
-                <Link to="/cart">
-                  <Button
-                    fullWidth
-                    variant="contained"
-                    className="add-to-cart-button1"
-                    disabled={!gender || !size}
-                    onClick={addToCart}
-                    sx={{
-                      backgroundColor: 'grey',
-                      color: 'white',
-                      '&:hover': {
-                        backgroundColor: 'black',
-                      },
-                      '&:disabled': {
-                        backgroundColor: 'lightgrey',
-                        color: 'rgba(255, 255, 255, 0.7)',
-                      },
-                      '&:disabled:hover': {
-                        backgroundColor: 'lightgrey',
-                      },
-                    }}
-                  >
-                    Add to Cart
-                  </Button>
-                </Link>
+                {/* <Link to="/cart"> */}
+                <Button
+                  fullWidth
+                  variant="contained"
+                  className="add-to-cart-button1"
+                  disabled={!gender || !size}
+                  onClick={addToCart}
+                  sx={{
+                    backgroundColor: 'grey',
+                    color: 'white',
+                    '&:hover': {
+                      backgroundColor: 'black',
+                    },
+                    '&:disabled': {
+                      backgroundColor: 'lightgrey',
+                      color: 'rgba(255, 255, 255, 0.7)',
+                    },
+                    '&:disabled:hover': {
+                      backgroundColor: 'lightgrey',
+                    },
+                  }}
+                >
+                  Add to Cart
+                </Button>
+                {/* </Link> */}
               </div>
             </>
           ) : (

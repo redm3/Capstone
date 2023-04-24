@@ -1,6 +1,7 @@
  .cart-card {
     display: flex;
     width: 45%;
+    height: 100%;
     flex-wrap: wrap;
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -24,7 +25,8 @@
   }
   
   .cart-details {
-    max-width: 300px;
+    max-width: 350px;
+    max-height: auto;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -36,8 +38,11 @@
   }
   
   /* Add a media query for smaller screens */
-  @media (max-width: 700px) {
+  @media (max-width: 1200px) {
     .cart-card {
+      margin: 10px;
+      padding: 10px;
+      width: 94%;
       flex-direction: column; /* Change the flex direction to column */
     }
   

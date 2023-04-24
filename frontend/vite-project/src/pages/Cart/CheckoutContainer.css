@@ -4,10 +4,16 @@
     top: 50%;
     right: 0;
     transform: translateY(-50%);
-    z-index: 2;
+    z-index: 1;
 }
 
 .checkout-container h2 {
     margin-bottom: 0rem;
 }
 
+
+
+  /* Add a media query for smaller screens */
+  @media (max-width: 700px) {
+
+  }

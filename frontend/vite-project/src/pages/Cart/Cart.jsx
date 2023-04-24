@@ -19,6 +19,8 @@ const Cart = () => {
     localStorage.setItem('cart', JSON.stringify(updatedProducts));
   };
 
+  const totalItems = products.reduce((total, product) => total + product.quantity, 0);
+
   return (
     <div className="Cart">
       {products.length === 0 ? (
@@ -26,10 +28,17 @@ const Cart = () => {
       ) : (
         <>
           <h1 className="cart-heading">Cart</h1>
-          {products.map((product) => (
-            <ProductCard key={product.id} product={product} onRemove={removeProduct} />
-          ))}
-          <CheckoutContainer products={products} />
+          <div className="cart-wrapper">
+            <div className="product-list">
+              {products.map((product) => (
+                <ProductCard key={product.id} product={product} onRemove={removeProduct} />
+              ))}
+            </div>
+            <div className="cart-info">
+              <p className="total-items">Total Items: {totalItems}</p>
+              <CheckoutContainer products={products} />
+            </div>
+          </div>
         </>
       )}
     </div>
