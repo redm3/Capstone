@@ -13,6 +13,10 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import s from './Login.module.scss'
+import { useNavigate } from 'react-router-dom';
+
+
+
 
 function Copyright(props) {
     return (
@@ -29,14 +33,46 @@ function Copyright(props) {
 
 const theme = createTheme();
 
+
 export default function Register() {
-    const handleSubmit = (event) => {
+    const navigate = useNavigate()
+
+    const handleSubmit = async (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        console.log({
+
+/*         console.log({
             email: data.get('email'),
             password: data.get('password'),
-        });
+        }); */
+        const user = {
+            firstName: data.get('firstName'),
+            lastName: data.get('lastName'),
+            email: data.get('email'),
+            password: data.get('password'),
+        };
+    
+        try {
+            const response = await fetch('http://127.0.0.1:8000/api/users/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(user),
+            });
+    
+            if (response.ok) {
+                const result = await response.json();
+                console.log(result);
+                // Redirect to login page after successful registration
+                navigate('/login');
+            } else {
+                // Handle error response from the server
+                console.error('Error creating user:', response.status);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
     };
 
     return (
@@ -105,7 +141,7 @@ export default function Register() {
                                 <Grid item xs={12}>
                                     <FormControlLabel
                                         control={<Checkbox value="allowExtraEmails" color="primary" />}
-                                        label="I want to receive inspiration, marketing promotions and updates via email."
+                                        label="I want to be a reseller."
                                     />
                                 </Grid>
                             </Grid>

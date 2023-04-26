@@ -17,6 +17,7 @@ import StripeCheckoutForm from "../components/Stripe/StripeCheckoutForm";
 import Completion from "../components/Stripe/Completion";
 import Store from "../pages/Store/Store";
 import Cart from "../pages/Cart/Cart"
+import Admin from "../pages/admin/admin";
 
 function AppRoutes(props) {
   return (
@@ -27,6 +28,7 @@ function AppRoutes(props) {
 
       <Route path="/register" element={<Register />} />
       <Route path="/login" element={<Login {...props} />} />
+      <Route path="/admin" element={<Admin />} />
      
 
       <Route path="/addressform" element={<AddressForm />} />

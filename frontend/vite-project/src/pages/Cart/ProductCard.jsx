@@ -14,15 +14,15 @@ const ProductCard = ({ product, onRemove = () => {} }) => {
         <p>Size: {product.size}</p>
         <p>Quantity: {product.quantity}</p>
         <p>Price: ${product.price.toFixed(2)}</p>
-        {/* Move the product-remove div inside the product-details div */}
-        <div className="cart-remove">
-          <IconButton
-            aria-label="remove from cart"
-            onClick={() => onRemove(product.id)}
-          >
-            <DeleteIcon />
-          </IconButton>
-        </div>
+      </div>
+      {/* Move the cart-remove div outside of the cart-details div */}
+      <div className="cart-remove">
+        <IconButton
+          aria-label="remove from cart"
+          onClick={() => onRemove(product.id)}
+        >
+          <DeleteIcon />
+        </IconButton>
       </div>
     </div>
   );

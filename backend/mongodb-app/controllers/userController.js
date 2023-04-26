@@ -78,15 +78,15 @@ require('dotenv').config()
     const registerUser = async (req, res) => {
         try {
             // Get user input by destructuring request body
-            const { firstName, lastName, emailId, password } = req.body;
+            const { firstName, lastName, email, password } = req.body;
     
             // Validate user input
-            if (!(emailId && password && firstName && lastName)) {
+            if (!(email && password && firstName && lastName)) {
                 res.status(400).json("All input is required");
             }
     
             // Validate if user exists in our MongoDB database
-            const oldUser = await Models.User.findOne({ emailId });
+            const oldUser = await Models.User.findOne({ email });
     
             if (oldUser) {
                 res.status(409).json({ result: "User already exists. Please login" });
@@ -99,13 +99,13 @@ require('dotenv').config()
             const user = await Models.User.create({
                 firstName,
                 lastName,
-                emailId: emailId.toLowerCase(), // sanitize: convert email to lowercase
+                email: email.toLowerCase(), // sanitize: convert email to lowercase
                 password: encryptedPassword,
             });
     
             // Create token
             const token = jwt.sign(
-                { user_id: user.id, emailId },
+                { user_id: user.id, email },
                 process.env.JWT_KEY,
                 {
                     expiresIn: "2h",
@@ -199,5 +199,5 @@ const deleteUser = (req, res) => {
 }
 
 module.exports = {
-    loginUser,registerUser, /* getUsers, */ getUserById, createUser, updateUser, deleteUser
+    loginUser, registerUser, /* getUsers, */ getUserById, createUser, updateUser, deleteUser
 }

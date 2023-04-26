@@ -33,13 +33,15 @@ const userSchema = new schema({
         street:String,
         number:Number,
         zipcode:String,
-        geolocation:{
+
+
+/*         geolocation:{
             lat:String,
             long:String
-        }
+        } */
     },
-    phone:String,
-    admin: Boolean
+/*     phone:String,
+    admin: Boolean */
 })
 
 module.exports = mongoose.model('user',userSchema)

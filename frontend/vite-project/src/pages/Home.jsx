@@ -41,11 +41,11 @@ function Home() {
       items: 3,
     },
     tablet: {
-      breakpoint: { max: 1024, min: 800 },
+      breakpoint: { max: 1100, min: 900 },
       items: 2,
     },
     mobile: {
-      breakpoint: { max: 800, min: 400 },
+      breakpoint: { max: 900, min: 400 },
       items: 1,
     },
   };
@@ -77,6 +77,7 @@ function Home() {
             display: 'block',
             margin: '20px auto',
             maxWidth: '80%',
+            flexGrow: 1,
           }}
         />
         <h1>Restocked</h1>

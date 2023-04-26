@@ -104,3 +104,14 @@ module.exports = router;
 // http://127.0.0.1:8000/api/users/delete/11
 
 //WORKING AFTER TESTING
+
+//http://127.0.0.1:8000/api/users/register
+
+/* 
+{
+    "email": "mwzzzzz@gmail.com",
+    "password": "12345",
+    "firstName": "Marcos",
+    "lastName": "Wellss"
+}
+*/

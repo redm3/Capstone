@@ -27,9 +27,21 @@ const Navbar = () => {
     const isMobile = useMediaQuery('(max-width:800px)');
     const [openDrawer, setOpenDrawer] = React.useState(false);
     const { email } = React.useContext(UserContext);
+    const [loggedIn, setLoggedIn] = React.useState(false);
+
+    const [token, setToken] = React.useState(null);
+
+    React.useEffect(() => {
+        const storedToken = localStorage.getItem('token');
+        if (storedToken) {
+            setToken(storedToken);
+        }
+    }, []);
 
 
     const handleLogout = () => {
+        localStorage.removeItem('token');
+        setToken(null);
         setUsername("");
         navigate("/");
     };
@@ -141,7 +153,7 @@ const Navbar = () => {
                                         </Link>
                                     </Button>
 
-                                    {email ? (
+                                    {(email || token) ? (
                                         <Button
                                             style={{ backgroundColor: "transparent" }}
                                             disableRipple

@@ -30,7 +30,7 @@ const DrawerComponent = () => {
         anchor="right"
         open={openDrawer}
         onClose={() => setOpenDrawer(false)}
-        sx={{ '& .MuiDrawer-paper': { width: 400, display: 'flex', flexDirection: 'column' } }}
+        sx={{ '& .MuiDrawer-paper': { width: 300, display: 'flex', flexDirection: 'column' } }}
       >
         <IconButton
           onClick={() => setOpenDrawer(false)}
