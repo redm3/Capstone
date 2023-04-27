@@ -31,12 +31,12 @@ function Copyright() {
 
 const steps = ['Shipping address', 'Review your order'];
 
-function getStepContent(step) {
+function getStepContent(step, order, setOrderData ) {
   switch (step) {
     case 0:
-      return <AddressForm />;
+      return <AddressForm currentOrder={order} orderHandler={setOrderData}/>;
     case 1:
-      return <Review />;
+      return <Review currentOrder={order} orderHandler={setOrderData} />;
     default:
       throw new Error('Unknown step');
   }
@@ -44,9 +44,9 @@ function getStepContent(step) {
 
 const theme = createTheme();
 
-export default function Checkout() {
+export default function Checkout({orderData, setOrderData, setTotalPrice}) {
   const [activeStep, setActiveStep] = React.useState(0);
-
+  
   const handleNext = () => {
     if (activeStep === steps.length - 1) {
       window.location.href = '/payment';
@@ -73,9 +73,6 @@ export default function Checkout() {
       >
         <Toolbar>
           <Navbar/>
-{/*           <Typography variant="h6" color="inherit" noWrap>
-            Metro
-          </Typography> */}
         </Toolbar>
       </AppBar>
       <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>
@@ -91,7 +88,7 @@ export default function Checkout() {
             ))}
           </Stepper>
           <React.Fragment>
-            {getStepContent(activeStep)}
+            {getStepContent(activeStep, orderData, setOrderData)}
             <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
               {activeStep !== 0 && (
                 <Button onClick={handleBack} sx={{ mt: 3, ml: 1 }}>

@@ -1,43 +1,45 @@
 import { Routes, Route, Link } from "react-router-dom";
-
+import { useState } from "react";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
 import ProtectedRoute from "./ProtectedRoute";
 import Register from "../pages/Register";
-import Pay from "../pages/Pay";
+/* import Pay from "../pages/Pay"; */
 import AddressForm from "../pages/checkout/AddressForm";
 import Checkout from "../pages/checkout/Checkout";
-import PaymentForm from "../pages/checkout/PaymentForm";
-import Review from "../pages/checkout/Review";
+/* import PaymentForm from "../pages/checkout/PaymentForm"; */
+/* import Review from "../pages/checkout/Review"; */
 
 import Payment from "../components/Stripe/Payment";
 import ProductDetailsPage from "../pages/products/ProductDetailsPage";
 
-import StripeCheckoutForm from "../components/Stripe/StripeCheckoutForm";
+/* import StripeCheckoutForm from "../components/Stripe/StripeCheckoutForm"; */
 import Completion from "../components/Stripe/Completion";
 import Store from "../pages/Store/Store";
 import Cart from "../pages/Cart/Cart"
 import Admin from "../pages/admin/admin";
 
 function AppRoutes(props) {
+  const [orderData, setOrderData] = useState({});
+  const [totalPrice, setTotalPrice] = useState(0);
+
   return (
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/store" element={<Store />} />
       <Route path="/cart" element={<Cart />} />
+      <Route path="/products/:id" element={<ProductDetailsPage />} />
 
       <Route path="/register" element={<Register />} />
       <Route path="/login" element={<Login {...props} />} />
       <Route path="/admin" element={<Admin />} />
      
 
-      <Route path="/addressform" element={<AddressForm />} />
-      <Route path="/checkout" element={<Checkout />} />
-      <Route path="/products/:id" element={<ProductDetailsPage />} />
+      {/* <Route path="/addressform" element={<AddressForm />} /> */}
+      <Route path="/checkout" element={<Checkout orderData={orderData} setOrderData= {setOrderData} setTotalPrice={setTotalPrice} />} />
+    
 
-
-
-      <Route path="/payment" element={<Payment />} />
+      <Route path="/payment" element={<Payment orderData={orderData} totalPrice={totalPrice}  />} />
       <Route path="/completion" element={<Completion />} />
     </Routes>
   );

@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 require("dotenv").config();
 let dbConnect = require("./dbConnect");
+const bodyParser = require('body-parser');
 const stripe = require('stripe')(process.env.STRIPE_KEY);
 require('dotenv').config();
 const cors= require("cors");
@@ -9,6 +10,9 @@ const cors= require("cors");
 //http://localhost:8000/api/orders/64362fade8d168035a4cb92f
 
 app.use(cors());
+
+app.use(bodyParser.json({ verify: (req, res, buf) => req.rawBody = buf }));
+
 
 const Controllers = require("./controllers"); //index.js
 app.use(express.json());
@@ -37,13 +41,14 @@ app.get("/config", (req, res) => {
  app.post('/create-payment-intent', async (req, res) => {
     try {
       const { amount } = req.body;
-      console.log(req.body)
+      /* console.log(req.body) */
+      console.log(amount)
       const paymentIntent = await stripe.paymentIntents.create({
         amount: amount,
         currency: 'usd',
       });
       res.status(200).send(paymentIntent.client_secret);
-      console.log(paymentIntent)
+      /* console.log(paymentIntent) */
     } catch (err) {
         console.log(err)
       res.status(500).json({ error: err.message });
@@ -51,24 +56,35 @@ app.get("/config", (req, res) => {
   }); 
 
  /*  http://127.0.0.1:8000/create-payment-intent */
-/*  {
-    "amount":2000
-    
-} */
+ app.post('/webhook', async (req, res) => {
+  const sig = req.headers['stripe-signature'];
+  const rawBody = req.rawBody;
+  const webhookSecret = process.env.WEBHOOK_SIGNING_SECRET;
 
+  let event;
 
-/*   app.post('/create-payment-intent', async (req, res) => {
-      const paymentIntent = await stripe.paymentIntents.create({
-        amount: 199,
-        currency: 'usd',
-        automatic_payment_methods:{
-            enabled:true,
-        },
+  try {
+    event = stripe.webhooks.constructEvent(rawBody, sig, webhookSecret);
+  } catch (err) {
+    console.error('Webhook signature verification failed:', err.message);
+    return res.status(400).send(`Webhook Error: ${err.message}`);
+  }
 
-    });
-    res.send({clientSecret: paymentIntent.client_secret});
-  });
- */
+  // Handle the event
+  switch (event.type) {
+    case 'payment_intent.succeeded':
+      const paymentIntent = event.data.object;
+      console.log('PaymentIntent was successful:', paymentIntent.id);
+      break;
+    // Add more cases to handle other webhook events
+    default:
+      console.log(`Unhandled event type: ${event.type}`);
+  }
+
+  // Return a 200 response to acknowledge receipt of the event
+  res.sendStatus(200);
+});
+
 app.get("/", (req, res) => {
     res.json({ message: "Welcome to my MongoDB application." });
 });

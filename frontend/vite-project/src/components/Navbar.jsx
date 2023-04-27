@@ -95,6 +95,7 @@ const Navbar = () => {
                             ) : (
                                 <>
                                     {/* <MuseumIcon sx={{ color: 'black',padding: '0px', position: 'absolute', left: '0', top: '10', fontSize: 40 }} /> */}
+                                    <Link to="/">
                                     <img
                                         src={Logosmall}
                                         alt="Logosmall"
@@ -104,9 +105,10 @@ const Navbar = () => {
                                             height: 'auto',
                                             position: 'absolute',
                                             left: '0',
-                                            top: '10',
+                                            top: '0',
                                         }}
                                     />
+                                    </Link>
                                     <Button
                                         disableRipple
                                         style={{ backgroundColor: "transparent" }}

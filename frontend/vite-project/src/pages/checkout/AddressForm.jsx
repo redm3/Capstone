@@ -41,7 +41,7 @@ const fetchUserDataById = async (userId) => {
   }
 };
 
-export default function AddressForm() {
+export default function AddressForm({order, orderHandler}) {
   const [userData, setUserData] = React.useState(null);
 
   React.useEffect(() => {
@@ -57,6 +57,8 @@ export default function AddressForm() {
   }, []);
 
   React.useEffect(() => {
+    
+    orderHandler({...order, userData})
     console.log(userData); // Log the userData
   }, [userData]);
   

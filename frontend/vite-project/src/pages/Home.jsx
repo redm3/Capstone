@@ -41,11 +41,11 @@ function Home() {
       items: 3,
     },
     tablet: {
-      breakpoint: { max: 1100, min: 900 },
+      breakpoint: { max: 1024, min: 800 },
       items: 2,
     },
     mobile: {
-      breakpoint: { max: 900, min: 400 },
+      breakpoint: { max: 800, min: 400 },
       items: 1,
     },
   };
@@ -55,9 +55,10 @@ function Home() {
       className="container"
       style={{
         textAlign: 'center',
-        minHeight: '150vh',
+        minHeight: '120vh',
         display: 'flex',
         flexDirection: 'column',
+        flexGrow: 3,
       }}
     >
       <div
@@ -76,8 +77,7 @@ function Home() {
           style={{
             display: 'block',
             margin: '20px auto',
-            maxWidth: '80%',
-            flexGrow: 1,
+            maxWidth: '100%',
           }}
         />
         <h1>Restocked</h1>

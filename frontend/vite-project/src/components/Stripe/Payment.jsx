@@ -4,46 +4,52 @@ import StripeCheckoutForm from "./StripeCheckoutForm";
 import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
 
-function Payment() {
+
+function Payment({ orderData, totalPrice }) {
   const [stripePromise, setStripePromise] = useState(null);
   const [clientSecret, setClientSecret] = useState("");
+  const [errorMessage, seterrorMessage] = useState("");
+
 
   useEffect(() => {
+    
     fetch("http://127.0.0.1:8000/config").then(async (r) => {
+
       const { publishableKey } = await r.json();
       console.log(publishableKey);
       setStripePromise(loadStripe(publishableKey));
 
-      axios.post("http://127.0.0.1:8000/create-payment-intent", {amount: 2000}
-  
-    ).then(async (result) => {
-        console.log(result)
-        let clientSecret = result.data
-        setClientSecret(clientSecret);
-        console.log(clientSecret)
-      });
+      console.log(totalPrice);
+
+      axios.post("http://127.0.0.1:8000/create-payment-intent", { amount: 2000 }, { headers: { 'Content-Type': 'application/json' }})
+
+
+        .then(async (result) => {
+
+          console.log(result)
+          let clientSecret = result.data
+          setClientSecret(clientSecret);
+          console.log(clientSecret)
+
+        }).catch(err => {
+          console.log(err)
+          seterrorMessage(err.message)
+
+        })
     });
   }, []);
-
-/*   useEffect(() => {
-    fetch("http://127.0.0.1:8000/create-payment-intent", {
-      method: "POST",
-      body: JSON.stringify({amount: 2000}),
-
-    }).then(async (result) => {
-      var { clientSecret } = await result.json();
-      setClientSecret(clientSecret);
-      console.log(clientSecret)
-    });
-  }, []); */
 
   return (
     <>
       {clientSecret && stripePromise && (
-        <Elements options={{clientSecret}} stripe={stripePromise}>
-          <StripeCheckoutForm clientSecret={clientSecret} />
+        <Elements options={{ clientSecret }} stripe={stripePromise}>
+          <StripeCheckoutForm orderData={orderData} clientSecret={clientSecret} />
+
         </Elements>
       )}
+      <div>
+        {errorMessage}
+      </div>
     </>
   );
 }

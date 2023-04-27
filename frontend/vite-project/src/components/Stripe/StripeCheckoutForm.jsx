@@ -1,9 +1,10 @@
 import { PaymentElement } from "@stripe/react-stripe-js";
 import { useState } from "react";
 import { useStripe, useElements } from "@stripe/react-stripe-js";
+import axios from 'axios';
 import "./StripeCheckoutForm.css";
 
-export default function StripeCheckoutForm() {
+export default function StripeCheckoutForm({orderData}) {
   const stripe = useStripe();
   const elements = useElements();
 
@@ -12,12 +13,12 @@ export default function StripeCheckoutForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     if (!stripe || !elements) {
       return;
     }
     setIsProcessing(true);
-    
+  
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
@@ -26,12 +27,23 @@ export default function StripeCheckoutForm() {
       },
     });
 
+    console.log("Order data before API call:", orderData); // Add this line to debug orderData
+  
+    axios
+      .post("http://127.0.0.1:8000/api/orders/create", orderData)
+      .then((rsp) => {
+        console.log(rsp.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  
     if (error.type === "card_error" || error.type === "validation_error") {
       setMessage(error.message);
     } else {
       setMessage("An unexpected error occured.");
     }
-
+  
     setIsProcessing(false);
   };
 

@@ -22,13 +22,21 @@ const calculateTotal = (products) => {
       return total + parseFloat(price) * product.quantity;
     }, 0);
 
-  return (productsTotal + shippingCost).toFixed(2);
+  const total = productsTotal + shippingCost;
+  return parseFloat(total.toFixed(2));
 };
 
 const products = getCartFromLocalStorage();
 
-export default function Review() {
+export default function Review({order, orderHandler, setTotalPrice }) {
+
   const totalPrice = calculateTotal(products);
+  console.log(totalPrice);
+  React.useEffect(() => {
+    orderHandler({ ...order, products, totalPrice });
+    setTotalPrice(totalPrice);
+  }, [orderHandler, order, totalPrice, setTotalPrice]);
+  
 
   return (
     <React.Fragment>

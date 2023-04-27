@@ -4,7 +4,7 @@ const Product = require('./product')
 const User = require('./user')
 
 const orderSchema = new schema({
-    userId: {
+    id: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user',
         required: true
@@ -26,6 +26,8 @@ const orderSchema = new schema({
             }
         }
     ],
+    orderTotal: {type: Number},
+
     shippingAddress: {
         firstName: {
             type: String,
