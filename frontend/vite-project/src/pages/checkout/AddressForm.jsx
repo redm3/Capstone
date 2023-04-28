@@ -41,7 +41,7 @@ const fetchUserDataById = async (userId) => {
   }
 };
 
-export default function AddressForm({order, orderHandler}) {
+export default function AddressForm({currentOrder, orderHandler}) {
   const [userData, setUserData] = React.useState(null);
 
   React.useEffect(() => {
@@ -51,20 +51,31 @@ export default function AddressForm({order, orderHandler}) {
       const userId = decoded.user_id;
 
       fetchUserDataById(userId).then((data) => {
-        setUserData(data);
+        setUserData(data.data);
+        console.log(data)
       });
     }
   }, []);
 
   React.useEffect(() => {
     
-    orderHandler({...order, userData})
+    orderHandler({...currentOrder, ...userData})
     console.log(userData); // Log the userData
+    console.log({...currentOrder, ...userData})
   }, [userData]);
-  
 
+  const handleSubmit = (e) =>{
+    e.preventDefault()
+    let data = new FormData(e.target);
+    let formObject = Object.fromEntries(data.entries());
+    setUserData(formObject)
+    
+  } 
+  
+  console.log(currentOrder)
   return (
     <React.Fragment>
+      <form onSubmit={handleSubmit}> 
       <Typography variant="h6" gutterBottom>
         Shipping address
       </Typography>
@@ -78,7 +89,8 @@ export default function AddressForm({order, orderHandler}) {
             fullWidth
             autoComplete="given-name"
             variant="standard"
-            value={userData?.data?.name?.firstname || ''}
+            value={userData?.name?.firstname || ''}
+
           />
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -90,7 +102,7 @@ export default function AddressForm({order, orderHandler}) {
             fullWidth
             autoComplete="family-name"
             variant="standard"
-            value={userData?.data?.name?.lastname || ''}
+            value={userData?.name?.lastname || ''}
           />
         </Grid>
         <Grid item xs={12}>
@@ -102,7 +114,7 @@ export default function AddressForm({order, orderHandler}) {
             fullWidth
             autoComplete="shipping address-line1"
             variant="standard"
-            value={userData?.data?.address?.number || ''}
+            value={userData?.address?.number || ''}
           />
         </Grid>
         <Grid item xs={12}>
@@ -113,7 +125,7 @@ export default function AddressForm({order, orderHandler}) {
             fullWidth
             autoComplete="shipping address-line2"
             variant="standard"
-            value={userData?.data?.address?.street || ''}
+            value={userData?.address?.street || ''}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -125,7 +137,7 @@ export default function AddressForm({order, orderHandler}) {
             fullWidth
             autoComplete="shipping address-level2"
             variant="standard"
-            value={userData?.data?.address?.city || ''}
+            value={userData?.address?.city || ''}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -146,7 +158,7 @@ export default function AddressForm({order, orderHandler}) {
             fullWidth
             autoComplete="shipping postal-code"
             variant="standard"
-            value={userData?.data?.address?.zipcode || ''}
+            value={userData?.address?.zipcode || ''}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -161,6 +173,7 @@ export default function AddressForm({order, orderHandler}) {
           />
         </Grid>
       </Grid>
+      </form>
     </React.Fragment>
   );
 }

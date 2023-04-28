@@ -5,7 +5,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
 
 
-function Payment({ orderData, totalPrice }) {
+function Payment({ orderData }) {
   const [stripePromise, setStripePromise] = useState(null);
   const [clientSecret, setClientSecret] = useState("");
   const [errorMessage, seterrorMessage] = useState("");
@@ -19,9 +19,9 @@ function Payment({ orderData, totalPrice }) {
       console.log(publishableKey);
       setStripePromise(loadStripe(publishableKey));
 
-      console.log(totalPrice);
+      console.log(orderData);
 
-      axios.post("http://127.0.0.1:8000/create-payment-intent", { amount: 2000 }, { headers: { 'Content-Type': 'application/json' }})
+      axios.post("http://127.0.0.1:8000/create-payment-intent", { amount: orderData.totalPrice }, { headers: { 'Content-Type': 'application/json' }})
 
 
         .then(async (result) => {

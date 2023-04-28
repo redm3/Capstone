@@ -15,6 +15,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import AddressForm from './AddressForm';
 import Review from './Review';
 import Navbar from '../../components/Navbar';
+import { useNavigate } from 'react-router-dom';
 
 function Copyright() {
   return (
@@ -31,12 +32,13 @@ function Copyright() {
 
 const steps = ['Shipping address', 'Review your order'];
 
-function getStepContent(step, order, setOrderData ) {
+function getStepContent(step, order, setOrderData) {
+  console.log(order)
   switch (step) {
     case 0:
-      return <AddressForm currentOrder={order} orderHandler={setOrderData}/>;
+      return <AddressForm currentOrder={order} orderHandler={setOrderData} />;
     case 1:
-      return <Review currentOrder={order} orderHandler={setOrderData} />;
+      return <Review currentOrder={order} orderHandler={setOrderData} /* setTotalPrice={setTotalPrice} */ />;
     default:
       throw new Error('Unknown step');
   }
@@ -44,12 +46,15 @@ function getStepContent(step, order, setOrderData ) {
 
 const theme = createTheme();
 
-export default function Checkout({orderData, setOrderData, setTotalPrice}) {
+export default function Checkout({ orderData, setOrderData /* ,setTotalPrice */ }) {
+  /* const [totalPrice, setTotalPrice] = React.useState(0); */
+
   const [activeStep, setActiveStep] = React.useState(0);
-  
+  const navigate = useNavigate()
+
   const handleNext = () => {
     if (activeStep === steps.length - 1) {
-      window.location.href = '/payment';
+      navigate('/payment');
     } else {
       setActiveStep(activeStep + 1);
     }
@@ -72,7 +77,7 @@ export default function Checkout({orderData, setOrderData, setTotalPrice}) {
         }}
       >
         <Toolbar>
-          <Navbar/>
+          <Navbar />
         </Toolbar>
       </AppBar>
       <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>
@@ -102,9 +107,9 @@ export default function Checkout({orderData, setOrderData, setTotalPrice}) {
                 sx={{ mt: 3, ml: 1 }}
               >
                 {activeStep === steps.length - 1 ? 'Place order' : 'Next'}
-                </Button>
-              </Box>
-            </React.Fragment>
+              </Button>
+            </Box>
+          </React.Fragment>
         </Paper>
         <Copyright />
       </Container>

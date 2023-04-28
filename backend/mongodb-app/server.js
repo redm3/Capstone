@@ -40,9 +40,10 @@ app.get("/config", (req, res) => {
 
  app.post('/create-payment-intent', async (req, res) => {
     try {
-      const { amount } = req.body;
+      let { amount } = req.body;
       /* console.log(req.body) */
       console.log(amount)
+      amount = Math.round(amount)
       const paymentIntent = await stripe.paymentIntents.create({
         amount: amount,
         currency: 'usd',

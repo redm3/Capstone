@@ -21,7 +21,11 @@ import Admin from "../pages/admin/admin";
 
 function AppRoutes(props) {
   const [orderData, setOrderData] = useState({});
-  const [totalPrice, setTotalPrice] = useState(0);
+  /* const [totalPrice, setTotalPrice] = useState(0); */
+  const orderwrapper = (order) =>{
+    console.log(order)
+    setOrderData(order)
+  }
 
   return (
     <Routes>
@@ -36,10 +40,10 @@ function AppRoutes(props) {
      
 
       {/* <Route path="/addressform" element={<AddressForm />} /> */}
-      <Route path="/checkout" element={<Checkout orderData={orderData} setOrderData= {setOrderData} setTotalPrice={setTotalPrice} />} />
+      <Route path="/checkout" element={<Checkout orderData={orderData} setOrderData= {orderwrapper} /* setTotalPrice={setTotalPrice} */ />} />
     
 
-      <Route path="/payment" element={<Payment orderData={orderData} totalPrice={totalPrice}  />} />
+      <Route path="/payment" element={<Payment orderData={orderData} />} />
       <Route path="/completion" element={<Completion />} />
     </Routes>
   );

@@ -28,15 +28,16 @@ const calculateTotal = (products) => {
 
 const products = getCartFromLocalStorage();
 
-export default function Review({order, orderHandler, setTotalPrice }) {
+export default function Review({currentOrder, orderHandler, setTotalPrice }) {
 
   const totalPrice = calculateTotal(products);
   console.log(totalPrice);
   React.useEffect(() => {
-    orderHandler({ ...order, products, totalPrice });
-    setTotalPrice(totalPrice);
-  }, [orderHandler, order, totalPrice, setTotalPrice]);
+    orderHandler({ ...currentOrder, products, totalPrice });
+    console.log({ ...currentOrder, products, totalPrice })
+  }, []); 
   
+  console.log(currentOrder)
 
   return (
     <React.Fragment>
