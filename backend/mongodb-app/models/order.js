@@ -4,29 +4,31 @@ const Product = require('./product')
 const User = require('./user')
 
 const orderSchema = new schema({
-    id: {
+    user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'user',
+        ref: 'User',
         required: true
     },
     date: {
         type: Date,
-        required: true
+        default: Date.now
     },
     products: [
         {
             productId: {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: 'product',
+                type: Number,
+                ref: 'Product',
                 required: true
             },
-            quantity: {
-                type: Number,
-                required: true
-            }
+            title: String,
+            image: String,
+            price: Number,
+            gender: String,
+            category: String,
+            description: String
         }
     ],
-    orderTotal: {type: Number},
+    orderTotal: { type: Number },
 
     shippingAddress: {
         firstName: {
@@ -60,6 +62,7 @@ const orderSchema = new schema({
             required: true
         }
     }
-})
+});
+
 
 module.exports = mongoose.model('order', orderSchema)

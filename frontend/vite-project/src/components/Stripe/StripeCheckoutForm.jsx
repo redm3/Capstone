@@ -28,9 +28,33 @@ export default function StripeCheckoutForm({orderData}) {
     });
 
     console.log("Order data before API call:", orderData); // Add this line to debug orderData
+
+    const modifiedOrderData = {
+      user: orderData._id,
+      products: orderData.products.map((product) => ({
+        productId: product.id, // Use product.id instead of product._id
+        title: product.title,
+        image: product.image,
+        price: product.price,
+        gender: product.gender,
+        category: product.category,
+        description: product.description,
+      })),
+      orderTotal: orderData.totalPrice,
+      shippingAddress: {
+        firstName: orderData.name.firstname,
+        lastName: orderData.name.lastname,
+        addressLine1: `${orderData.address.number} ${orderData.address.street}`,
+        addressLine2: "",
+        city: orderData.address.city,
+        state: "",
+        postalCode: orderData.address.zipcode,
+        country: "US", // Replace this with the appropriate country code
+      },
+    };
   
     axios
-      .post("http://127.0.0.1:8000/api/orders/create", orderData)
+      .post("http://127.0.0.1:8000/api/orders/create", modifiedOrderData)
       .then((rsp) => {
         console.log(rsp.data);
       })

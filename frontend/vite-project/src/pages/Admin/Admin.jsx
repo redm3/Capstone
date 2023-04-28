@@ -11,6 +11,7 @@ import TextField from '@mui/material/TextField';
 import './admin.css';
 
 function Admin() {
+  //create
   const [products, setProducts] = useState([]);
   const [open, setOpen] = useState(false);
   const [newProduct, setNewProduct] = useState({
@@ -21,6 +22,10 @@ function Admin() {
     image: '',
     category: '',
   });
+  //modify
+  const [modifyOpen, setModifyOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+
 
   const fetchProducts = async () => {
     try {
@@ -35,17 +40,28 @@ function Admin() {
     const value = event.target.value;
     const name = event.target.name;
     setNewProduct({ ...newProduct, [name]: value });
-    if(name === 'id') {
-      setNewProduct({ ...newProduct, id: value });
-    }
   };
+
   useEffect(() => {
     fetchProducts();
   }, []);
 
+  const handleModifyOpen = (id) => {
+    setSelectedProduct(products.find((product) => product.id === id));
+    setModifyOpen(true);
+  };
+
+  const handleModifyClose = () => {
+    setModifyOpen(false);
+    setSelectedProduct(null);
+  };
+
+
+
 
   const modifyProduct = (id) => {
     console.log('Modify product with ID:', id);
+    handleModifyOpen(id);
   };
 
   const deleteProduct = (id) => {
@@ -75,6 +91,17 @@ function Admin() {
       fetchProducts();
     } catch (error) {
       console.error('Error creating product:', error);
+    }
+  };
+
+  const handleModifySubmit = async () => {
+    if (!selectedProduct) return;
+    try {
+      await axios.put(`http://127.0.0.1:8000/api/products/update/${selectedProduct.id}`, selectedProduct);
+      handleModifyClose();
+      fetchProducts();
+    } catch (error) {
+      console.error('Error updating product:', error);
     }
   };
 
@@ -127,6 +154,7 @@ function Admin() {
           <TextField
             autoFocus
             margin="dense"
+            name="id" // Add this line
             id="id"
             label="ID"
             type="text"
@@ -180,12 +208,94 @@ function Admin() {
             value={newProduct.category}
             onChange={(e) => setNewProduct({ ...newProduct, category: e.target.value })}
           />
+
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
           <Button onClick={handleSubmit}>Add</Button>
         </DialogActions>
       </Dialog>
+
+      <Dialog open={modifyOpen} onClose={handleModifyClose}>
+        <DialogTitle>Modify Product</DialogTitle>
+        <DialogContent>
+          {selectedProduct && (
+            <>
+              <TextField
+                autoFocus
+                margin="dense"
+                id="id"
+                label="ID"
+                type="text"
+                fullWidth
+                value={selectedProduct.id}
+                disabled
+              />
+              <TextField
+                margin="dense"
+                id="title"
+                label="Title"
+                type="text"
+                fullWidth
+                value={selectedProduct.title}
+                onChange={(e) =>
+                  setSelectedProduct({ ...selectedProduct, title: e.target.value })
+                }
+              />
+              <TextField
+                margin="dense"
+                id="price"
+                label="Price"
+                type="number"
+                fullWidth
+                value={selectedProduct.price}
+                onChange={(e) =>
+                  setSelectedProduct({ ...selectedProduct, price: e.target.value })
+                }
+              />
+              <TextField
+                margin="dense"
+                id="description"
+                label="Description"
+                type="text"
+                fullWidth
+                value={selectedProduct.description}
+                onChange={(e) =>
+                  setSelectedProduct({ ...selectedProduct, description: e.target.value })
+                }
+              />
+              <TextField
+                margin="dense"
+                id="image"
+                label="Image URL"
+                type="text"
+                fullWidth
+                value={selectedProduct.image}
+                onChange={(e) =>
+                  setSelectedProduct({ ...selectedProduct, image: e.target.value })
+                }
+              />
+              <TextField
+                margin="dense"
+                id="category"
+                label="Category"
+                type="text"
+                fullWidth
+                value={selectedProduct.category}
+                onChange={(e) =>
+                  setSelectedProduct({ ...selectedProduct, category: e.target.value })
+                }
+              />
+            </>
+          )}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleModifyClose}>Cancel</Button>
+          <Button onClick={handleModifySubmit}>Save</Button>
+        </DialogActions>
+      </Dialog>
+
+
       <Box sx={{ width: '100%' }}>
         <DataGrid
           sx={{ marginTop: '8px' }}
