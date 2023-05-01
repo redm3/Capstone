@@ -45,7 +45,7 @@ function Home() {
       items: 2,
     },
     mobile: {
-      breakpoint: { max: 800, min: 400 },
+      breakpoint: { max: 800, min: 0 },
       items: 1,
     },
   };

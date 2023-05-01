@@ -13,19 +13,27 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import Logo from '../assets/metro-logo.png';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
-
-const pages = [
-  { name: 'Home', icon: <CottageIcon />, url: '/' },
-  { name: 'Store', icon: <StorefrontIcon />, url: '/store' },
-  { name: 'Cart', icon: <ShoppingCartIcon />, url: '/cart' },
-  { name: 'Login', icon: <LoginIcon />, url: '/login' },
-];
-
+import LogoutIcon from '@mui/icons-material/Logout';
 
 const DrawerComponent = () => {
   const [openDrawer, setOpenDrawer] = useState(false);
+  const isLoggedIn = !!localStorage.getItem('token');
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    navigate('/');
+  };
+
+  const pages = [
+    { name: 'Home', icon: <CottageIcon />, url: '/' },
+    { name: 'Store', icon: <StorefrontIcon />, url: '/store' },
+    { name: 'Cart', icon: <ShoppingCartIcon />, url: '/cart' },
+    { name: isLoggedIn ? 'Logout' : 'Login', icon: isLoggedIn ? <LogoutIcon /> : <LoginIcon />, url: isLoggedIn ? '/' : '/login' },
+  ];
+
 
   return (
     <React.Fragment>
@@ -44,9 +52,9 @@ const DrawerComponent = () => {
         <List sx={{ marginTop: '64px', marginLeft: '20px' }}>
           {pages.map((page, index) => (
             <Link to={page.url} key={index} style={{ textDecoration: 'none', color: 'inherit' }}>
-
               <ListItemButton
                 disableRipple
+                onClick={page.name === 'Logout' ? handleLogout : null}
                 sx={{
                   '& .MuiListItemIcon-root, & .MuiListItemText-root': {
                     opacity: 0.8,
@@ -65,7 +73,6 @@ const DrawerComponent = () => {
             </Link>
           ))}
         </List>
-
         <Box sx={{ flexGrow: 1 }} />
         <Divider />
         <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: '40px' }}>

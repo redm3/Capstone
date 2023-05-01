@@ -11,6 +11,8 @@ import TextField from '@mui/material/TextField';
 import './admin.css';
 
 function Admin() {
+
+  
   //create
   const [products, setProducts] = useState([]);
   const [open, setOpen] = useState(false);
@@ -57,15 +59,19 @@ function Admin() {
   };
 
 
-
-
   const modifyProduct = (id) => {
     console.log('Modify product with ID:', id);
     handleModifyOpen(id);
   };
 
-  const deleteProduct = (id) => {
-    console.log('Delete product with ID:', id);
+  const deleteProduct = async (id) => {
+    try {
+      await axios.delete(`http://127.0.0.1:8000/api/products/delete/${id}`);
+      console.log('Product deleted with ID:', id);
+      fetchProducts(); // Update the product list after deleting
+    } catch (error) {
+      console.error('Error deleting product:', error);
+    }
   };
 
   const handleClickOpen = () => {
