@@ -16,6 +16,7 @@ import Logo from '../assets/metro-logo.png';
 import { Link, useNavigate } from 'react-router-dom';
 
 import LogoutIcon from '@mui/icons-material/Logout';
+import SettingsSuggestIcon from '@mui/icons-material/SettingsSuggest';
 
 const DrawerComponent = () => {
   const [openDrawer, setOpenDrawer] = useState(false);
@@ -24,8 +25,10 @@ const DrawerComponent = () => {
 
   const handleLogout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('isAdmin');
     navigate('/');
   };
+  const isAdmin = localStorage.getItem('isAdmin') === 'true';
 
   const pages = [
     { name: 'Home', icon: <CottageIcon />, url: '/' },
@@ -33,6 +36,11 @@ const DrawerComponent = () => {
     { name: 'Cart', icon: <ShoppingCartIcon />, url: '/cart' },
     { name: isLoggedIn ? 'Logout' : 'Login', icon: isLoggedIn ? <LogoutIcon /> : <LoginIcon />, url: isLoggedIn ? '/' : '/login' },
   ];
+  
+  if (isAdmin) {
+    pages.push({ name: 'admin', icon: <SettingsSuggestIcon />, url: '/admin' });
+  }
+  
 
 
   return (
@@ -54,7 +62,12 @@ const DrawerComponent = () => {
             <Link to={page.url} key={index} style={{ textDecoration: 'none', color: 'inherit' }}>
               <ListItemButton
                 disableRipple
-                onClick={page.name === 'Logout' ? handleLogout : null}
+                onClick={() => {
+                  if (page.name === 'Logout') {
+                    handleLogout();
+                  }
+                  setOpenDrawer(false);
+                }}
                 sx={{
                   '& .MuiListItemIcon-root, & .MuiListItemText-root': {
                     opacity: 0.8,

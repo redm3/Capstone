@@ -36,7 +36,7 @@ export default function Login() {
 
     const emailProps = useFormInput('')
     const passwordProps = useFormInput('')
-    const { email, setEmail } = React.useContext(UserContext)
+    const { email, setEmail, isAdmin, setIsAdmin } = React.useContext(UserContext);
     const navigate = useNavigate()
 
     const [loggedIn, setLoggedIn] = React.useState(false)
@@ -54,11 +54,10 @@ export default function Login() {
           return false;
         }
       };
-
-    const handleSubmit = async (event) => {
+      const handleSubmit = async (event) => {
         event.preventDefault();
-        let user = emailProps.value
-        let password = passwordProps.value
+        let user = emailProps.value;
+        let password = passwordProps.value;
     
         try {
             const response = await fetch('http://127.0.0.1:8000/api/users/login', {
@@ -72,9 +71,11 @@ export default function Login() {
             if (response.ok) {
                 const data = await response.json();
                 setEmail(user);
+                setIsAdmin(data.data.admin);
+                localStorage.setItem('isAdmin', data.data.admin);
+                localStorage.setItem('email', user);
                 setLoggedIn(true);
                 setErrMsg('');
-                console.log(data);
     
                 // Save the JWT token to local storage
                 localStorage.setItem('token', data.token);
@@ -93,15 +94,22 @@ export default function Login() {
             setErrMsg('Error logging in');
         }
     };
-
     React.useEffect(() => {
         const storedToken = localStorage.getItem('token');
+        const storedIsAdmin = localStorage.getItem('isAdmin') === 'true';
+    
         if (storedToken && isTokenValid(storedToken)) {
-          setLoggedIn(true);
+            setLoggedIn(true);
+            setIsAdmin(storedIsAdmin); // Update isAdmin value from local storage
+    
+            if (storedIsAdmin) {
+                navigate('/admin');
+            }
         } else {
-          setLoggedIn(false);
+            setLoggedIn(false);
         }
-      }, []);
+    }, []);
+    
     
 
 

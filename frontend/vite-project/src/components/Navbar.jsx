@@ -18,15 +18,11 @@ import { Link } from 'react-router-dom';
 import { UserContext } from '../context/UserContext';
 import LogoutIcon from '@mui/icons-material/Logout';
 
-
-
-
-
 const Navbar = () => {
 
     const isMobile = useMediaQuery('(max-width:800px)');
     const [openDrawer, setOpenDrawer] = React.useState(false);
-    const { email } = React.useContext(UserContext);
+    const { email, setEmail, isAdmin } = React.useContext(UserContext);
     const [loggedIn, setLoggedIn] = React.useState(false);
 
     const [token, setToken] = React.useState(null);
@@ -41,10 +37,13 @@ const Navbar = () => {
 
     const handleLogout = () => {
         localStorage.removeItem('token');
+        localStorage.removeItem('isAdmin');
+        localStorage.removeItem('email');
         setToken(null);
-        setUsername("");
+        setEmail("");
+        setLoggedIn(false);
         navigate("/");
-    };
+    }
 
 
     const navigate = useNavigate();
