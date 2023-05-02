@@ -16,6 +16,7 @@ import Completion from "../components/Stripe/Completion";
 import Store from "../pages/Store/Store";
 import Cart from "../pages/Cart/Cart"
 import Admin from "../pages/admin/admin";
+import Profile from "../pages/profile/profile";
 
 function AppRoutes(props) {
   const [orderData, setOrderData] = useState({});
@@ -35,6 +36,7 @@ function AppRoutes(props) {
       <Route path="/register" element={<Register />} />
       <Route path="/login" element={<Login {...props} />} />
       <Route path="/admin" element={<ProtectedRoute adminOnly={true}><Admin /></ProtectedRoute>} />
+      <Route path="/profile" element={<ProtectedRoute adminOnly={false}><Profile /></ProtectedRoute>} />
 
 
       {/* <Route path="/addressform" element={<AddressForm />} /> */}

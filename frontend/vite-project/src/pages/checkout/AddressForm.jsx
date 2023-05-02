@@ -3,26 +3,14 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import jwt_decode from 'jwt-decode';
+import { Button } from '@mui/material';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
 
-/* // Function to fetch user data by user ID (you need to implement this)
-const fetchUserDataById = async (userId) => {
-  // Fetch user data from your API or database by user ID
-  // This is just a placeholder, replace it with your actual implementation
-  const userData = {
-    id: userId,
-    name: {
-      firstname: "John",
-      lastname: "Doe"
-    },
-    address: {
-      street: "123 Main St",
-      number: "Apt 4B",
-      city: "New York",
-      zipcode: "10001"
-    }
-  };
-  return userData;
-}; */
+
+
 const fetchUserDataById = async (userId) => {
   try {
     const response = await fetch(`http://127.0.0.1:8000/api/users/${userId}`);
@@ -43,19 +31,24 @@ const fetchUserDataById = async (userId) => {
 
 export default function AddressForm({currentOrder, orderHandler}) {
   const [userData, setUserData] = React.useState(null);
+  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
 
   React.useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
+      setIsLoggedIn(true);
       const decoded = jwt_decode(token);
       const userId = decoded.user_id;
-
+  
       fetchUserDataById(userId).then((data) => {
         setUserData(data.data);
-        console.log(data)
+        console.log(data);
       });
+    } else {
+      setIsLoggedIn(false);
     }
   }, []);
+  
 
   React.useEffect(() => {
     
@@ -75,6 +68,7 @@ export default function AddressForm({currentOrder, orderHandler}) {
   console.log(currentOrder)
   return (
     <React.Fragment>
+       {isLoggedIn ? (
       <form onSubmit={handleSubmit}> 
       <Typography variant="h6" gutterBottom>
         Shipping address
@@ -174,6 +168,26 @@ export default function AddressForm({currentOrder, orderHandler}) {
         </Grid>
       </Grid>
       </form>
+    ) : (
+      <Dialog open={!isLoggedIn} maxWidth="sm" fullWidth>
+        <DialogTitle>Please log in to continue</DialogTitle>
+        <DialogContent>
+          <Typography variant="body1" gutterBottom>
+            You need to be logged in to access this page.
+          </Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => (window.location.href = '/login')}
+          >
+            Go to Login
+          </Button>
+        </DialogActions>
+      </Dialog>
+    )}
+
     </React.Fragment>
   );
 }

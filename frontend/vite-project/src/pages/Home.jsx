@@ -87,28 +87,28 @@ function Home() {
             <div key={product1.id} className="product-container">
               <h2>{product1.title}</h2>
               <Link to={`/products/${product1.id}`}>
-                <img src={product1.image} alt={product1.title} className="product-image" />
+                <img src={product1.image} alt={product1.title} className="product-image product-image-hover" />
                 <span className="product-price">${product1.price}</span>
               </Link>
             </div>
             <div key={product2.id} className="product-container">
               <h2>{product2.title}</h2>
               <Link to={`/products/${product2.id}`}>
-                <img src={product2.image} alt={product2.title} className="product-image" />
+                <img src={product2.image} alt={product2.title} className="product-image product-image-hover" />
                 <span className="product-price">${product2.price}</span>
               </Link>
             </div>
             <div key={product3.id} className="product-container">
               <h2>{product3.title}</h2>
               <Link to={`/products/${product3.id}`}>
-                <img src={product3.image} alt={product3.title} className="product-image" />
+                <img src={product3.image} alt={product3.title} className="product-image product-image-hover" />
                 <span className="product-price">${product3.price}</span>
               </Link>
             </div>
             <div key={product4.id} className="product-container">
               <h2>{product4.title}</h2>
               <Link to={`/products/${product4.id}`}>
-                <img src={product4.image} alt={product4.title} className="product-image" />
+                <img src={product4.image} alt={product4.title} className="product-image product-image-hover" />
                 <span className="product-price">${product4.price}</span>
               </Link>
             </div>

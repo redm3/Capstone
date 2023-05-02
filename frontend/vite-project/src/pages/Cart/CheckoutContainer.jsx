@@ -46,6 +46,13 @@ const CheckoutContainer = ({ products }) => {
           Checkout
         </Button>
       </Link>
+      <footer style={{ textAlign: 'center', marginTop: '2rem' }}>
+        <img
+          src="https://cdn.brandfolder.io/KGT2DTA4/at/8vbr8k4mr5xjwk4hxq4t9vs/Stripe_wordmark_-_blurple.svg"
+          alt="Stripe logo"
+          style={{ width: '120px', height: 'auto' }}
+        />
+      </footer>
     </div>
   );
 };

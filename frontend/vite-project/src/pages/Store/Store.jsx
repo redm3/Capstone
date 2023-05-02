@@ -4,6 +4,14 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { motion, AnimatePresence } from 'framer-motion';
 import './store.css';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+
+
+
 
 function getCategoryClassName(category) {
   return category.replace(/\s+/g, '-').toLowerCase();
@@ -22,6 +30,12 @@ function Store() {
   const [filter, setFilter] = useState('*');
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
+  const [openDialog, setOpenDialog] = useState(false);
+
+  const handleDialogClose = () => {
+    setOpenDialog(false);
+  };
+  
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -47,6 +61,9 @@ function Store() {
     } else if (direction === 'next') {
       setCurrentPage(currentPage + 1);
       scrollToTop(); // Call scrollToTop() function here
+      if (currentPage === 1) {
+        setOpenDialog(true);
+      }
     }
   };
 
@@ -81,6 +98,7 @@ function Store() {
         ))}
       </div>
       
+
       <div className="grid">
         <AnimatePresence mode="wait">
           {displayedProducts.map((product) => (
@@ -95,7 +113,7 @@ function Store() {
               <h2>{product.title}</h2>
               <Link to={`/products/${product.id}`}>
                 <img
-                  className="product-image"
+                  className="product-image product-image-hover"
                   src={product.image}
                   alt={product.title}
                   style={{ width: '100%', height: 'auto' }}
@@ -117,6 +135,7 @@ function Store() {
         right: 0,
         bottom: -40,
       }}>
+        
         <Button
           variant="contained"
           onClick={() => handlePageClick('prev')}
@@ -150,8 +169,27 @@ function Store() {
         >
           NEXT
         </Button>
+        
       </div>
+      <Dialog
+        open={openDialog}
+        onClose={handleDialogClose}
+      >
+        <DialogTitle>{"Can't find what you like?"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Feel free to contact us for any further assistance.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleDialogClose} color="primary">
+            Close
+          </Button>
+        </DialogActions>
+      </Dialog>
+      
     </div>
+    
   );
 }
 

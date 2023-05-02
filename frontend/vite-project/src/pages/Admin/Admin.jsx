@@ -11,8 +11,17 @@ import TextField from '@mui/material/TextField';
 import './admin.css';
 
 function Admin() {
+  const [orders, setOrders] = useState([]);
 
-  
+  const fetchOrders = async () => {
+    try {
+      const response = await axios.get('http://localhost:8000/api/orders');
+      setOrders(response.data.data);
+    } catch (error) {
+      console.error('Error fetching orders:', error);
+    }
+  };
+
   //create
   const [products, setProducts] = useState([]);
   const [open, setOpen] = useState(false);
@@ -46,6 +55,7 @@ function Admin() {
 
   useEffect(() => {
     fetchProducts();
+    fetchOrders(); // Add this line
   }, []);
 
   const handleModifyOpen = (id) => {
@@ -110,6 +120,42 @@ function Admin() {
       console.error('Error updating product:', error);
     }
   };
+
+  const orderColumns = [
+    { field: '_id', headerName: 'Order ID', width: 250 },
+    {
+      field: 'date',
+      headerName: 'Date',
+      width: 200,
+      valueFormatter: (params) => new Date(params.value).toLocaleDateString(),
+    },
+    { field: 'userId', headerName: 'User ID', width: 250 },
+    {
+      field: 'shippingAddress',
+      headerName: 'Shipping Address',
+      width: 500,
+      valueFormatter: (params) => {
+        const {
+          firstName,
+          lastName,
+          addressLine1,
+          addressLine2,
+          city,
+          state,
+          postalCode,
+          country,
+        } = params.value;
+        return `${firstName} ${lastName}, ${addressLine1}, ${addressLine2}, ${city}, ${state}, ${postalCode}, ${country}`;
+      },
+    },
+    {
+      field: 'products',
+      headerName: 'Products',
+      width: 1000,
+      valueFormatter: (params) =>
+        params.value.map((product) => `ID: ${product._id}, Quantity: ${product.quantity}`).join(', '),
+    },
+  ];
 
   const columns = [
     { field: 'id', headerName: 'ID', width: 90 },
@@ -310,11 +356,29 @@ function Admin() {
           initialState={{
             pagination: {
               paginationModel: {
-                pageSize: 5,
+                pageSize: 10,
               },
             },
           }}
-          pageSizeOptions={[5]}
+          pageSizeOptions={[10]}
+          checkboxSelection
+          disableRowSelectionOnClick
+        />
+      </Box>
+      <h1>Orders</h1>
+      <Box sx={{ width: '100%' }}>
+        <DataGrid
+        getRowId={(row) => row._id}
+          rows={orders}
+          columns={orderColumns}
+          initialState={{
+            pagination: {
+              paginationModel: {
+                pageSize: 10,
+              },
+            },
+          }}
+          pageSizeOptions={[10]}
           checkboxSelection
           disableRowSelectionOnClick
         />

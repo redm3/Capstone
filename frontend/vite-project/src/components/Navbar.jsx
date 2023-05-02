@@ -17,6 +17,7 @@ import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { UserContext } from '../context/UserContext';
 import LogoutIcon from '@mui/icons-material/Logout';
+import SettingsSuggestIcon from '@mui/icons-material/SettingsSuggest';
 
 const Navbar = () => {
 
@@ -150,6 +151,22 @@ const Navbar = () => {
                                         <Link to="/cart" style={{ textDecoration: 'none' }}>
                                             <Typography variant="h6" component="div" sx={{ xl: 1, opacity: 0.8, '&:hover': { opacity: 1 } }} color="black">
                                                 Cart
+                                            </Typography>
+                                        </Link>
+                                    </Button>
+                                {/* profile */}
+                                    <Button
+                                        disableRipple
+                                        style={{ backgroundColor: "transparent" }}
+                                        value={2}
+                                        startIcon={<SettingsSuggestIcon sx={{ color: 'black', opacity: 0.5 }} />}
+                                        variant="text"
+                                        sx={{ textTransform: 'none' }}
+                                        onClick={(event) => handleChange(event, 2)}
+                                    >
+                                        <Link to="/profile" style={{ textDecoration: 'none' }}>
+                                            <Typography variant="h6" component="div" sx={{ xl: 1, opacity: 0.8, '&:hover': { opacity: 1 } }} color="black">
+                                                Profile
                                             </Typography>
                                         </Link>
                                     </Button>

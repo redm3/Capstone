@@ -30,6 +30,7 @@ function ProductDetailsPage() {
     const notify = () => toast("Item added to cart!");
     const cartItem = {
       id: product.id,
+      _id: product._id,
       title: product.title,
       image: product.image,
       price: product.price,

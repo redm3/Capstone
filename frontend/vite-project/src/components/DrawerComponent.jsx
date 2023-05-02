@@ -26,6 +26,7 @@ const DrawerComponent = () => {
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('isAdmin');
+    localStorage.removeItem('email')
     navigate('/');
   };
   const isAdmin = localStorage.getItem('isAdmin') === 'true';
@@ -39,10 +40,10 @@ const DrawerComponent = () => {
   
   if (isAdmin) {
     pages.push({ name: 'admin', icon: <SettingsSuggestIcon />, url: '/admin' });
+  } else if (isLoggedIn) {
+    pages.push({ name: 'Profile', icon: <SettingsSuggestIcon />, url: '/profile' });
   }
   
-
-
   return (
     <React.Fragment>
       <Drawer

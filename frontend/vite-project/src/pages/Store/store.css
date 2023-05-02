@@ -59,3 +59,12 @@
     gap: 10px;
     margin-bottom: 20px;
   }
+
+  .product-image-hover {
+    transition: transform 0.3s;
+  }
+  
+  .product-image-hover:hover {
+    transform: scale(1.05);
+    z-index: 1;
+  }

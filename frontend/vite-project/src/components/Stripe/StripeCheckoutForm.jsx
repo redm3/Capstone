@@ -30,12 +30,15 @@ export default function StripeCheckoutForm({orderData}) {
     console.log("Order data before API call:", orderData); // Add this line to debug orderData
 
     const modifiedOrderData = {
-      user: orderData._id,
+      userId: orderData._id,
       products: orderData.products.map((product) => ({
-        productId: product.id, // Use product.id instead of product._id
+        /* productId: product.id, */ // Use product.id instead of product._id
+        productId: product.id,
         title: product.title,
         image: product.image,
         price: product.price,
+        quantity: product.quantity,
+        size:product.size,
         gender: product.gender,
         category: product.category,
         description: product.description,
@@ -49,7 +52,7 @@ export default function StripeCheckoutForm({orderData}) {
         city: orderData.address.city,
         state: "",
         postalCode: orderData.address.zipcode,
-        country: "US", // Replace this with the appropriate country code
+        country: "USA", // Replace this with the appropriate country code
       },
     };
   
