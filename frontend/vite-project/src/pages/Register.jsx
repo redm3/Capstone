@@ -51,6 +51,7 @@ export default function Register() {
             email: data.get('email'),
             password: data.get('password'),
         };
+        console.log(user)
     
         try {
             const response = await fetch('http://127.0.0.1:8000/api/users/register', {
@@ -59,7 +60,9 @@ export default function Register() {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(user),
+                
             });
+            console.log(response)
     
             if (response.ok) {
                 const result = await response.json();

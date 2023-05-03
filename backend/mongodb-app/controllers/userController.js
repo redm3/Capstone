@@ -76,25 +76,26 @@ require('dotenv').config()
     
 
     const registerUser = async (req, res) => {
+        console.log(req.body)
         try {
             // Get user input by destructuring request body
             const { firstName, lastName, email, password } = req.body;
-    
+            console.log("1")
             // Validate user input
             if (!(email && password && firstName && lastName)) {
                 res.status(400).json("All input is required");
             }
-    
+            console.log("2")
             // Validate if user exists in our MongoDB database
             const oldUser = await Models.User.findOne({ email });
-    
+            console.log("3")
             if (oldUser) {
                 res.status(409).json({ result: "User already exists. Please login" });
             }
-    
+            console.log("4")
             //Encrypt user password
             let encryptedPassword = await bcrypt.hash(password, 10);
-    
+            console.log("5")
             // Create user in our MongoDB database
             const user = await Models.User.create({
                 firstName,
@@ -102,6 +103,7 @@ require('dotenv').config()
                 email: email.toLowerCase(), // sanitize: convert email to lowercase
                 password: encryptedPassword,
             });
+            console.log("6")
     
             // Create token
             const token = jwt.sign(

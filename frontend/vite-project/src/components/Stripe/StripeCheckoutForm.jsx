@@ -33,7 +33,7 @@ export default function StripeCheckoutForm({orderData}) {
       userId: orderData._id,
       products: orderData.products.map((product) => ({
         /* productId: product.id, */ // Use product.id instead of product._id
-        productId: product.id,
+        productId: product._id,
         title: product.title,
         image: product.image,
         price: product.price,

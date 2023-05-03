@@ -19,14 +19,20 @@ function Profile() {
   const [userProfile, setUserProfile] = useState({
     username: '',
     email: '',
-    firstname: '',
-    lastname: '',
-    city: '',
-    street: '',
-    number: '',
-    zipcode: '',
-    lat: '',
-    long: '',
+    name: {
+      firstname: '',
+      lastname: ''
+    },
+    address: {
+      city: '',
+      street: '',
+      number: '',
+      zipcode: '',
+      geolocation: {
+        lat: '',
+        long: ''
+      }
+    },
     phone: '',
   });
 
@@ -35,31 +41,49 @@ function Profile() {
     if (token) {
       const decoded = jwt_decode(token);
       const userId = decoded.user_id;
+      console.log(userId)
 
       fetchUserProfile(userId).then((response) => {
         const data = response.data;
+        console.log(data)
         setUserProfile({
+
           username: data.username || '',
           email: data.email || '',
-          firstname: data.name.firstname || '',
-          lastname: data.name.lastname || '',
-          city: data.address.city || '',
-          street: data.address.street || '',
-          number: data.address.number || '',
-          zipcode: data.address.zipcode || '',
-          lat: data.address.geolocation.lat || '',
-          long: data.address.geolocation.long || '',
+          name: {
+            firstname: (data.name && data.name.firstname) ? data.name.firstname : '',
+            lastname: (data.name && data.name.lastname) || ''
+          },
+          address: {
+            city: (data.address && data.address.city) || '',
+            street: (data.address && data.address.street) || '',
+            number: (data.address && data.address.number) || '',
+            zipcode: (data.address && data.address.zipcode) || '',
+            geolocation:{lat: (data.address && data.address.geolocation && data.address.geolocation.lat) || '',
+            long: (data.address && data.address.geolocation && data.address.geolocation.long) || ''
+          }},
           phone: data.phone || '',
         });
       });
     }
   }, []);
-
+  console.log(userProfile)
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setUserProfile((prevProfile) => ({ ...prevProfile, [name]: value }));
   };
+
+  const handleInputNameChange = (e) => {
+    const { name, value } = e.target;
+    setUserProfile((prevProfile) => ({ ...prevProfile, name: { ...prevProfile.name,[name]: value } }))
+
+  }
+
+  const handleInputAddressChange = (e) => {
+    const { name, value } = e.target;
+    setUserProfile((prevProfile) => ({ ...prevProfile, address: {...prevProfile.address, [name]: value } }))
+  }
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -123,67 +147,67 @@ function Profile() {
                     <TextField
                       label="First Name"
                       name="firstname"
-                      value={userProfile.firstname}
-                      onChange={handleInputChange}
+                      value={userProfile.name.firstname}
+                      onChange={handleInputNameChange}
                       fullWidth
                       margin="normal"
                     />
                     <TextField
                       label="Last Name"
                       name="lastname"
-                      value={userProfile.lastname}
-                      onChange={handleInputChange}
+                      value={userProfile.name.lastname}
+                      onChange={handleInputNameChange}
                       fullWidth
                       margin="normal"
                     />
                     <TextField
                       label="City"
                       name="city"
-                      value={userProfile.city}
-                      onChange={handleInputChange}
+                      value={userProfile.address.city}
+                      onChange={handleInputAddressChange}
                       fullWidth
                       margin="normal"
                     />
                     <TextField
                       label="Street"
                       name="street"
-                      value={userProfile.street}
-                      onChange={handleInputChange}
+                      value={userProfile.address.street}
+                      onChange={handleInputAddressChange}
                       fullWidth
                       margin="normal"
                     />
                     <TextField
                       label="Number"
                       name="number"
-                      value={userProfile.number}
-                      onChange={handleInputChange}
+                      value={userProfile.address.number}
+                      onChange={handleInputAddressChange}
                       fullWidth
                       margin="normal"
                     />
                     <TextField
                       label="Zip Code"
                       name="zipcode"
-                      value={userProfile.zipcode}
-                      onChange={handleInputChange}
+                      value={userProfile.address.zipcode}
+                      onChange={handleInputAddressChange}
                       fullWidth
                       margin="normal"
                     />
-                    <TextField
+{/*                     <TextField
                       label="Latitude"
                       name="lat"
-                      value={userProfile.lat}
-                      onChange={handleInputChange}
+                      value={userProfile.address.lat}
+                      onChange={handleInputAddressChange}
                       fullWidth
                       margin="normal"
                     />
                     <TextField
                       label="Longitude"
                       name="long"
-                      value={userProfile.long}
-                      onChange={handleInputChange}
+                      value={userProfile.address.long}
+                      onChange={handleInputAddressChange}
                       fullWidth
                       margin="normal"
-                    />
+                    /> */}
                     <TextField
                       label="phone"
                       name="phone"
@@ -197,11 +221,11 @@ function Profile() {
                     </Button>
                   </CardContent>
                 </Card>
-                </Box>
+              </Box>
             </TabPanel>
             <TabPanel value="2">
-            
-{/*               <Card>
+
+              {/*               <Card>
                 <CardContent>
                   <Typography variant="h5" component="div">
                     Orders
