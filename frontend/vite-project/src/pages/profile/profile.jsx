@@ -4,7 +4,7 @@ import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import jwt_decode from 'jwt-decode';
-
+import UserOrders from './Usersorders';
 
 
 const fetchUserProfile = async (userId) => {
@@ -115,7 +115,7 @@ function Profile() {
           <Box sx={{ borderBottom: 2, borderColor: 'divider', p: 1 }}>
             <Tabs value={value} onChange={handleChange} aria-label="Profile tabs">
               <Tab label="Profile" value="1" />
-              {/* <Tab label="Orders" value="2" /> */}
+              <Tab label="Orders" value="2" />
             </Tabs>
           </Box>
           <Box sx={{ minHeight: 300 }}>
@@ -224,6 +224,8 @@ function Profile() {
               </Box>
             </TabPanel>
             <TabPanel value="2">
+              <UserOrders/>
+
 
               {/*               <Card>
                 <CardContent>

@@ -57,7 +57,7 @@ require('dotenv').config()
             if (user && (await bcrypt.compare(password, user.password))) {
                 // Create token
                 const token = jwt.sign(
-                    { user_id: user.id, email },
+                    { user_id: user.id, email , userObjectId: user._id  },
                     process.env.JWT_KEY,
                     {
                         expiresIn: "2h",

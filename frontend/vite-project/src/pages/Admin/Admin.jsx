@@ -22,6 +22,7 @@ function Admin() {
     }
   };
 
+
   //create
   const [products, setProducts] = useState([]);
   const [open, setOpen] = useState(false);
@@ -153,7 +154,7 @@ function Admin() {
       headerName: 'Products',
       width: 1000,
       valueFormatter: (params) =>
-        params.value.map((product) => `ID: ${product._id}, Quantity: ${product.quantity}`).join(', '),
+        params.value.map((product) => `ID: ${product.title}, Size: ${product.size} Quantity: ${product.quantity}, Gender: ${product.gender}`).join(', '),
     },
   ];
 
