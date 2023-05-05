@@ -1,0 +1,11 @@
+cd C:\Users\macmw\Downloads\stripe_1.14.0_windows_x86_64
+
+stripe login
+
+https://dashboard.stripe.com/test/logs?method[0]=post&method[1]=delete&direction[0]=connect_in&direction[1]=self
+
+
+stripe listen --forward-to localhost:5173/webhook
+
+
+whsec_1e2d37148c3524d686288a5d35b662cef8dd24be3e1169a1f4cdd39ae8b9cda2
