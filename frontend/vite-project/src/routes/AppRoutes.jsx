@@ -15,7 +15,7 @@ import ProductDetailsPage from "../pages/products/ProductDetailsPage";
 import Completion from "../components/Stripe/Completion";
 import Store from "../pages/Store/Store";
 import Cart from "../pages/Cart/Cart"
-import Admin from "../pages/admin/admin";
+import Admin from "../pages/Admin/Admin";
 import Profile from "../pages/profile/profile";
 
 function AppRoutes(props) {
