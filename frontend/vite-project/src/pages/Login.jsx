@@ -12,7 +12,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 /* import { useTheme, createTheme, ThemeProvider } from '@mui/material/styles'; */
 import { useNavigate } from 'react-router-dom';
-import useFormInput from '../hooks/useForminput';
+import useFormInput from '../hooks/useFormInput';
 import { UserContext } from '../context/UserContext';
 import s from './Login.module.scss'
 import jwt_decode from 'jwt-decode';
