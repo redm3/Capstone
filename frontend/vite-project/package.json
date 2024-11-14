@@ -27,7 +27,7 @@
     "isotope-layout": "^3.0.6",
     "jsonwebtoken": "^9.0.0",
     "jwt-decode": "^3.1.2",
-    "material-ui-dropzone": "^3.5.0",
+    
     "mongoose": "^7.0.4",
     "nanoid": "^4.0.2",
     "nodemon": "^2.0.22",
