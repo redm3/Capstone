@@ -95,7 +95,7 @@ function Profile() {
       const decoded = jwt_decode(token);
       const userId = decoded.user_id;
       /* http://127.0.0.1:8000/api/users/update/11 */
-      const response = await fetch(`http://127.0.0.1:8000/api/users/update/${userId}`, {
+      const response = await fetch(`https://metro-back-end.vercel.app/api/users/update/${userId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
