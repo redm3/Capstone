@@ -8,7 +8,7 @@ import UserOrders from './Usersorders';
 
 
 const fetchUserProfile = async (userId) => {
-  const response = await fetch(`http://127.0.0.1:8000/api/users/${userId}`);
+  const response = await fetch(`https://metro-back-end.vercel.app/api/users/${userId}`);
   const data = await response.json();
   return data;
 };
