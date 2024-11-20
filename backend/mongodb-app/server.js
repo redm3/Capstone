@@ -105,3 +105,5 @@ console.log(`Server is running on port ${PORT}.`);
 /* app.listen(5173, () =>
   console.log(`Node server listening at http://localhost:5173`)
 ); */
+
+export default app
