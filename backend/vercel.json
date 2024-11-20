@@ -2,14 +2,14 @@
     "version":2,
     "builds":[
         {
-            "src": "mongodb-app/server.js",
+            "src": "*.js",
             "use": "@vercel/node"
         }
     ],
     "routes":[
         {
             "src":"/(.*)",
-            "dest":"mongodb-app/server.js"
+            "dest":""
         }
     ]
 }
