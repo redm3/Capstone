@@ -54,7 +54,7 @@ export default function Register() {
         console.log(user)
     
         try {
-            const response = await fetch('http://127.0.0.1:8000/api/users/register', {
+            const response = await fetch('https://metro-back-end.vercel.app/api/users/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
