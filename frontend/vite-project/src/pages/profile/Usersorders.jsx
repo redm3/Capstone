@@ -14,7 +14,7 @@ function UserOrders() {
         const decodedToken = jwtDecode(token);
         const userId = decodedToken.userObjectId;
         try {
-            const response = await axios.get(`http://localhost:8000/api/orders/${userId}`);
+            const response = await axios.get(`https://metro-back-end.vercel.app/api/orders/${userId}`);
             setOrders(response.data.data);
         } catch (error) {
             console.error('Error fetching user orders:', error);
