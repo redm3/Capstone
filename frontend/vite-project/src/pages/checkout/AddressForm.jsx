@@ -13,7 +13,7 @@ import DialogActions from '@mui/material/DialogActions';
 
 const fetchUserDataById = async (userId) => {
   try {
-    const response = await fetch(`http://127.0.0.1:8000/api/users/${userId}`);
+    const response = await fetch(`https://metro-back-end.vercel.app/api/users/${userId}`);
 
     if (!response.ok) {
       throw new Error(`Error fetching user data: ${response.statusText}`);
