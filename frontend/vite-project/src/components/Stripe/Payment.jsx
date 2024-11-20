@@ -13,7 +13,7 @@ function Payment({ orderData }) {
 
   useEffect(() => {
     
-    fetch("http://127.0.0.1:8000/config").then(async (r) => {
+    fetch("https://metro-back-end.vercel.app/config").then(async (r) => {
 
       const { publishableKey } = await r.json();
       console.log(publishableKey);
@@ -21,7 +21,7 @@ function Payment({ orderData }) {
 
       console.log(orderData);
 
-      axios.post("http://127.0.0.1:8000/create-payment-intent", { amount: orderData.totalPrice }, { headers: { 'Content-Type': 'application/json' }})
+      axios.post("https://metro-back-end.vercel.app/create-payment-intent", { amount: orderData.totalPrice }, { headers: { 'Content-Type': 'application/json' }})
 
 
         .then(async (result) => {
