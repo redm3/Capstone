@@ -13,6 +13,9 @@ app.use(cors());
 
 app.use(bodyParser.json({ verify: (req, res, buf) => req.rawBody = buf }));
 
+module.exports = (req, res) => {
+  res.status(200).json({ message: 'Hello from Vercel!' });
+};
 
 const Controllers = require("./controllers"); //index.js
 app.use(express.json());
