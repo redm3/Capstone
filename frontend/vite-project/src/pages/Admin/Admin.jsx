@@ -15,7 +15,7 @@ function Admin() {
 
   const fetchOrders = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/api/orders');
+      const response = await axios.get('https://metro-back-end.vercel.app/api/orders');
       setOrders(response.data.data);
     } catch (error) {
       console.error('Error fetching orders:', error);
@@ -41,7 +41,7 @@ function Admin() {
 
   const fetchProducts = async () => {
     try {
-      const response = await axios.get('http://127.0.0.1:8000/api/products');
+      const response = await axios.get('https://metro-back-end.vercel.app/api/products');
       setProducts(response.data.data);
     } catch (error) {
       console.error('Error fetching products:', error);
@@ -77,7 +77,7 @@ function Admin() {
 
   const deleteProduct = async (id) => {
     try {
-      await axios.delete(`http://127.0.0.1:8000/api/products/delete/${id}`);
+      await axios.delete(`https://metro-back-end.vercel.app/api/products/delete/${id}`);
       console.log('Product deleted with ID:', id);
       fetchProducts(); // Update the product list after deleting
     } catch (error) {
@@ -95,7 +95,7 @@ function Admin() {
 
   const handleSubmit = async () => {
     try {
-      await axios.post('http://127.0.0.1:8000/api/products/create', newProduct);
+      await axios.post('https://metro-back-end.vercel.app/api/products/create', newProduct);
       setOpen(false);
       setNewProduct({
         id: '',
@@ -114,7 +114,7 @@ function Admin() {
   const handleModifySubmit = async () => {
     if (!selectedProduct) return;
     try {
-      await axios.put(`http://127.0.0.1:8000/api/products/update/${selectedProduct.id}`, selectedProduct);
+      await axios.put(`https://metro-back-end.vercel.app/api/products/update/${selectedProduct.id}`, selectedProduct);
       handleModifyClose();
       fetchProducts();
     } catch (error) {
