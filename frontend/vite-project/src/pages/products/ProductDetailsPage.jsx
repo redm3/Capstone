@@ -61,7 +61,7 @@ function ProductDetailsPage() {
   };
 
   useEffect(() => {
-    fetch(`http://127.0.0.1:8000/api/products/${id}`)
+    fetch(`https://metro-back-end.vercel.app/api/products/${id}`)
       .then((response) => response.json())
       .then((data) => setProduct(data.data));
   }, [id]);
