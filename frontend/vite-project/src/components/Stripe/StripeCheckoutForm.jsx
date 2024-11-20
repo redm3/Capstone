@@ -57,7 +57,7 @@ export default function StripeCheckoutForm({orderData}) {
     };
   
     axios
-      .post("http://127.0.0.1:8000/api/orders/create", modifiedOrderData)
+      .post("https://metro-back-end.vercel.app/api/orders/create", modifiedOrderData)
       .then((rsp) => {
         console.log(rsp.data);
       })
