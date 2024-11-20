@@ -14,19 +14,19 @@ function Home() {
   const [product4, setProduct4] = useState(null);
 
   useEffect(() => {
-    fetch('http://127.0.0.1:8000/api/products/1')
+    fetch('https://metro-back-end.vercel.app/api/products/1')
       .then((response) => response.json())
       .then((data) => setProduct1(data.data));
 
-    fetch('http://127.0.0.1:8000/api/products/2')
+    fetch('https://metro-back-end.vercel.app/api/products/2')
       .then((response) => response.json())
       .then((data) => setProduct2(data.data));
 
-    fetch('http://127.0.0.1:8000/api/products/3')
+    fetch('https://metro-back-end.vercel.app/api/products/3')
       .then((response) => response.json())
       .then((data) => setProduct3(data.data));
 
-    fetch('http://127.0.0.1:8000/api/products/4')
+    fetch('https://metro-back-end.vercel.app/api/products/4')
       .then((response) => response.json())
       .then((data) => setProduct4(data.data));
   }, []);
