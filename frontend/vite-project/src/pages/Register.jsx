@@ -12,8 +12,11 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import s from './Login.module.scss';
+import s from './Login.module.scss'
 import { useNavigate } from 'react-router-dom';
+
+
+
 
 function Copyright(props) {
     return (
@@ -30,54 +33,53 @@ function Copyright(props) {
 
 const theme = createTheme();
 
-export default function Register() {
-    const navigate = useNavigate();
 
-    // State to store form data and error messages
-    const [firstName, setFirstName] = React.useState('');
-    const [lastName, setLastName] = React.useState('');
-    const [email, setEmail] = React.useState('');
-    const [password, setPassword] = React.useState('');
-    const [errorMsg, setErrorMsg] = React.useState('');
-    const [isLoading, setIsLoading] = React.useState(false);
+export default function Register() {
+    const navigate = useNavigate()
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        const data = new FormData(event.currentTarget);
 
-        const user = { firstName, lastName, email, password };
-        console.log(user);
-
+/*         console.log({
+            email: data.get('email'),
+            password: data.get('password'),
+        }); */
+        const user = {
+            firstName: data.get('firstName'),
+            lastName: data.get('lastName'),
+            email: data.get('email'),
+            password: data.get('password'),
+        };
+        console.log(user)
+    
         try {
-            setIsLoading(true);
             const response = await fetch('https://metro-back-end.vercel.app/api/users/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(user),
+                
             });
-
-            setIsLoading(false);
-
+            console.log(response)
+    
             if (response.ok) {
                 const result = await response.json();
                 console.log(result);
                 // Redirect to login page after successful registration
                 navigate('/login');
             } else {
-                // Handle specific errors based on response status
-                const result = await response.json();
-                setErrorMsg(result.message || 'Error creating user.');
+                // Handle error response from the server
+                console.error('Error creating user:', response.status);
             }
         } catch (error) {
             console.error('Error:', error);
-            setIsLoading(false);
-            setErrorMsg('An error occurred during registration. Please try again.');
         }
     };
 
     return (
-        <div className={s.body}>
+        <div className={s.body} >
             <ThemeProvider theme={theme}>
                 <Container component="main" maxWidth="xs">
                     <CssBaseline />
@@ -95,7 +97,6 @@ export default function Register() {
                         <Typography component="h1" variant="h5">
                             Sign up
                         </Typography>
-                        {errorMsg && <Typography color="error">{errorMsg}</Typography>}
                         <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
                             <Grid container spacing={2}>
                                 <Grid item xs={12} sm={6}>
@@ -106,8 +107,6 @@ export default function Register() {
                                         fullWidth
                                         id="firstName"
                                         label="First Name"
-                                        value={firstName}
-                                        onChange={(e) => setFirstName(e.target.value)}
                                         autoFocus
                                     />
                                 </Grid>
@@ -119,8 +118,6 @@ export default function Register() {
                                         label="Last Name"
                                         name="lastName"
                                         autoComplete="family-name"
-                                        value={lastName}
-                                        onChange={(e) => setLastName(e.target.value)}
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
@@ -131,8 +128,6 @@ export default function Register() {
                                         label="Email Address"
                                         name="email"
                                         autoComplete="email"
-                                        value={email}
-                                        onChange={(e) => setEmail(e.target.value)}
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
@@ -144,8 +139,6 @@ export default function Register() {
                                         type="password"
                                         id="password"
                                         autoComplete="new-password"
-                                        value={password}
-                                        onChange={(e) => setPassword(e.target.value)}
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
@@ -160,9 +153,8 @@ export default function Register() {
                                 fullWidth
                                 variant="contained"
                                 sx={{ mt: 3, mb: 2 }}
-                                disabled={isLoading}
                             >
-                                {isLoading ? 'Signing Up...' : 'Sign Up'}
+                                Sign Up
                             </Button>
                             <Grid container justifyContent="flex-end">
                                 <Grid item>
