@@ -33,24 +33,22 @@ const theme = createTheme();
 export default function Register() {
     const navigate = useNavigate();
 
-    // State to store form data
+    // State to store form data and error messages
     const [firstName, setFirstName] = React.useState('');
     const [lastName, setLastName] = React.useState('');
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
+    const [errorMsg, setErrorMsg] = React.useState('');
+    const [isLoading, setIsLoading] = React.useState(false);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        const user = {
-            firstName,
-            lastName,
-            email,
-            password,
-        };
+        const user = { firstName, lastName, email, password };
         console.log(user);
 
         try {
+            setIsLoading(true);
             const response = await fetch('https://metro-back-end.vercel.app/api/users/register', {
                 method: 'POST',
                 headers: {
@@ -59,7 +57,7 @@ export default function Register() {
                 body: JSON.stringify(user),
             });
 
-            console.log(response);
+            setIsLoading(false);
 
             if (response.ok) {
                 const result = await response.json();
@@ -67,10 +65,14 @@ export default function Register() {
                 // Redirect to login page after successful registration
                 navigate('/login');
             } else {
-                console.error('Error creating user:', response.status);
+                // Handle specific errors based on response status
+                const result = await response.json();
+                setErrorMsg(result.message || 'Error creating user.');
             }
         } catch (error) {
             console.error('Error:', error);
+            setIsLoading(false);
+            setErrorMsg('An error occurred during registration. Please try again.');
         }
     };
 
@@ -93,6 +95,7 @@ export default function Register() {
                         <Typography component="h1" variant="h5">
                             Sign up
                         </Typography>
+                        {errorMsg && <Typography color="error">{errorMsg}</Typography>}
                         <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
                             <Grid container spacing={2}>
                                 <Grid item xs={12} sm={6}>
@@ -157,8 +160,9 @@ export default function Register() {
                                 fullWidth
                                 variant="contained"
                                 sx={{ mt: 3, mb: 2 }}
+                                disabled={isLoading}
                             >
-                                Sign Up
+                                {isLoading ? 'Signing Up...' : 'Sign Up'}
                             </Button>
                             <Grid container justifyContent="flex-end">
                                 <Grid item>
