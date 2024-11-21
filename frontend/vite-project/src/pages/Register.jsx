@@ -31,7 +31,7 @@ function Copyright(props) {
     );
 }
 
-const theme = createTheme();
+//const theme = createTheme();
 
 
 export default function Register() {
