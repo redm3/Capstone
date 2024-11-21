@@ -12,11 +12,8 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import s from './Login.module.scss'
+import s from './Login.module.scss';
 import { useNavigate } from 'react-router-dom';
-
-
-
 
 function Copyright(props) {
     return (
@@ -31,28 +28,28 @@ function Copyright(props) {
     );
 }
 
-//const theme = createTheme();
-
+const theme = createTheme();
 
 export default function Register() {
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+
+    // State to store form data
+    const [firstName, setFirstName] = React.useState('');
+    const [lastName, setLastName] = React.useState('');
+    const [email, setEmail] = React.useState('');
+    const [password, setPassword] = React.useState('');
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const data = new FormData(event.currentTarget);
 
-/*         console.log({
-            email: data.get('email'),
-            password: data.get('password'),
-        }); */
         const user = {
-            firstName: data.get('firstName'),
-            lastName: data.get('lastName'),
-            email: data.get('email'),
-            password: data.get('password'),
+            firstName,
+            lastName,
+            email,
+            password,
         };
-        console.log(user)
-    
+        console.log(user);
+
         try {
             const response = await fetch('https://metro-back-end.vercel.app/api/users/register', {
                 method: 'POST',
@@ -60,17 +57,16 @@ export default function Register() {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(user),
-                
             });
-            console.log(response)
-    
+
+            console.log(response);
+
             if (response.ok) {
                 const result = await response.json();
                 console.log(result);
                 // Redirect to login page after successful registration
                 navigate('/login');
             } else {
-                // Handle error response from the server
                 console.error('Error creating user:', response.status);
             }
         } catch (error) {
@@ -79,7 +75,7 @@ export default function Register() {
     };
 
     return (
-        <div className={s.body} >
+        <div className={s.body}>
             <ThemeProvider theme={theme}>
                 <Container component="main" maxWidth="xs">
                     <CssBaseline />
@@ -107,6 +103,8 @@ export default function Register() {
                                         fullWidth
                                         id="firstName"
                                         label="First Name"
+                                        value={firstName}
+                                        onChange={(e) => setFirstName(e.target.value)}
                                         autoFocus
                                     />
                                 </Grid>
@@ -118,6 +116,8 @@ export default function Register() {
                                         label="Last Name"
                                         name="lastName"
                                         autoComplete="family-name"
+                                        value={lastName}
+                                        onChange={(e) => setLastName(e.target.value)}
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
@@ -128,6 +128,8 @@ export default function Register() {
                                         label="Email Address"
                                         name="email"
                                         autoComplete="email"
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
@@ -139,6 +141,8 @@ export default function Register() {
                                         type="password"
                                         id="password"
                                         autoComplete="new-password"
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
