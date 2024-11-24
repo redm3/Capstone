@@ -10,14 +10,15 @@ function App() {
 
 
   return (
-    <div className="App">
-       <UserProvider>
-       {<Navbar/>}
-       <AppRoutes />
-       </UserProvider>
-
-    </div>
-  )
+    <BrowserRouter>
+      <div className="App">
+        <UserProvider>
+          <Navbar />
+          <AppRoutes />
+        </UserProvider>
+      </div>
+    </BrowserRouter>
+  );
 }
 
 export default App
